@@ -12,18 +12,18 @@
 
 #include "ft_ping.h"
 
-int parse_flag(char *s)
+int parse_flag(char s)
 {
     t_flags flags;
-    if (!*s)
+    if (!s)
         return 0;
 
-    if (*s == 'v')
+    if (s == 'v')
     {
         flags.FLAG_V = 1;
         return 1;
     }
-    else if (*s == 'h')
+    else if (s == 'h')
     {
         flags.FLAG_V = 1;
         return 1;
@@ -31,31 +31,37 @@ int parse_flag(char *s)
     return 0;
 }
 
-
 int main(int ac, char **av)
 {
-    if (ac > 2 && av)
+    if (ac > 2 && *av)
     {
         int i;
-        char **tab;
+        int state;
+        // char **tab;
 
         i = 0;
-        tab = malloc(sizeof(char *) * ac - 1);
-        while (++i < ac)
+
+        if (*av && av[1][0] == '-')
         {
-            tab[i] = malloc(sizeof(char) * (strlen(av[i]) + 1));
-            tab[i] = av[i];
-            printf("%s\n", tab[i]);
+            state = parse_flag(av[1][1]);
+            printf("%d\n", state);
         }
-        i = 0;
-        while (++i < ac - 1)
-        {
-            if (tab[i][0] == '-')
-            {
-                int state = parse_flag(&tab[i][1]);
-                printf("%d\n", state);
-            }
-        }
+        //     tab = malloc(sizeof(char *) * ac - 1);
+        //     while (++i < ac)
+        //     {
+        //         tab[i] = malloc(sizeof(char) * (strlen(av[i]) + 1));
+        //         tab[i] = av[i];
+        //         printf("%s\n", tab[i]);
+        //     }
+        //     i = 0;
+        //     while (++i < ac - 1)
+        //     {
+        //         if (tab[i][0] == '-')
+        //         {
+        //             int state = parse_flag(&tab[i][1]);
+        //             printf("%d\n", state);
+        //         }
+        //     }
     }
     else
     {
