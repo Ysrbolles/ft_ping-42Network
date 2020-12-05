@@ -37,7 +37,6 @@ int main(int ac, char **av)
     {
         int i;
         int state;
-        // char **tab;
 
         i = 0;
 
@@ -46,22 +45,6 @@ int main(int ac, char **av)
             state = parse_flag(av[1][1]);
             printf("%d\n", state);
         }
-        //     tab = malloc(sizeof(char *) * ac - 1);
-        //     while (++i < ac)
-        //     {
-        //         tab[i] = malloc(sizeof(char) * (strlen(av[i]) + 1));
-        //         tab[i] = av[i];
-        //         printf("%s\n", tab[i]);
-        //     }
-        //     i = 0;
-        //     while (++i < ac - 1)
-        //     {
-        //         if (tab[i][0] == '-')
-        //         {
-        //             int state = parse_flag(&tab[i][1]);
-        //             printf("%d\n", state);
-        //         }
-        //     }
     }
     else
     {

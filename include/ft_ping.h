@@ -19,7 +19,7 @@
 #include <netdb.h>
 #include <stdlib.h>
 #include <string.h>
-#include "./libft/libft.h"
+#include "libft.h"
 
 #define PACKET_PING_SIZE 64
 #define HEADERLEN ICMP
