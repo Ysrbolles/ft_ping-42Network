@@ -28,6 +28,7 @@ typedef struct s_flags
 {
         int FLAG_V;
         int FLAG_H;
+        char *HOST;
 }               t_flags;
 
 typedef struct s_pingpacket

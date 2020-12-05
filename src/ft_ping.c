@@ -37,9 +37,9 @@ int main(int ac, char **av)
     {
         int i;
         int state;
+        char **tab;
 
         i = 0;
-
         if (*av && av[1][0] == '-')
         {
             state = parse_flag(av[1][1]);
