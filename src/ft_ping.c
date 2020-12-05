@@ -12,6 +12,26 @@
 
 #include "ft_ping.h"
 
+int parse_flag(char *s)
+{
+    t_flags flags;
+    if (!*s)
+        return 0;
+
+    if (*s == 'v')
+    {
+        flags.FLAG_V = 1;
+        return 1;
+    }
+    else if (*s == 'h')
+    {
+        flags.FLAG_V = 1;
+        return 1;
+    }
+    return 0;
+}
+
+
 int main(int ac, char **av)
 {
     if (ac > 2 && av)
@@ -32,17 +52,14 @@ int main(int ac, char **av)
         {
             if (tab[i][0] == '-')
             {
-                    printf("li hdhghfgjgjgvjfgaaaaak\n");
-                if (tab[i][1] == 'v')
-                {
-                    printf("li hdaaaaak\n");
-                }
+                int state = parse_flag(&tab[i][1]);
+                printf("%d\n", state);
             }
         }
     }
     else
     {
-        printf("khriwa");
+        printf("khriwa\n");
     }
     return 0;
 }
