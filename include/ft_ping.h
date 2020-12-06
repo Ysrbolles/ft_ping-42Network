@@ -31,11 +31,11 @@ typedef struct s_flags
         int FLAG_V;
         int FLAG_H;
         char *HOST;
+        struct addrinfo info;
 } t_flags;
 
 struct ping_pkt 
 {
-  
    struct icmphdr hdr; 
    char msg[PACKET_PING_SIZE - sizeof(struct icmphdr)]; 
 }g_pckt; 
