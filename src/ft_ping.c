@@ -47,12 +47,16 @@ static int socket_loop(struct addrinfo *record)
     if (ClientSocket != -1)
     {
         printf(".......................\n");
-
         return (ClientSocket);
     }
     return (socket_loop(record->ai_next));
 }
+int pingloop = 1;
+void intHandler()
+{
 
+    pingloop = 0;
+}
 int main(int ac, char **av)
 {
     if (ac < 2)
@@ -86,6 +90,7 @@ int main(int ac, char **av)
             exit(EXIT_FAILURE);
         }
         socket_loop(results);
+        signal(SIGINT, intHandler);
         printf("PING %s : %zu data bytes\n",
                hostName, sizeof(g_pckt));
 
