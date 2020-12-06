@@ -28,24 +28,33 @@ int parse_flag(char s)
         flags.FLAG_V = 1;
         return 1;
     }
+    else
+    {
+        printf("ft_ping: invalid option --%c\n", s);
+        exit(EXIT_FAILURE);
+    }
     return 0;
 }
 
 int main(int ac, char **av)
 {
-    if (ac > 2 && *av)
+    if (ac < 2)
     {
-        // int i;
-        // int state;
+        fprintf(stderr, "Usage: %s port\n", av[0]);
+        exit(EXIT_FAILURE);
+    }
+    else
+    {
+        int i;
+        int state;
 
-        // i = 0;
-        // if (*av && av[1][0] == '-')
-        // {
-        //     state = parse_flag(av[1][1]);
-        //     printf("%d\n", state);
-        // }
-
-        const char *hostName = "www.agoumi.com";
+        i = 0;
+        if (*av && av[1][0] == '-')
+        {
+            state = parse_flag(av[1][1]);
+            printf("%d\n", state);
+        }
+        const char *hostName = av[2];
         const char *portNumber = "https";
         int ClientSocket;
         struct addrinfo hints;
@@ -56,6 +65,7 @@ int main(int ac, char **av)
         hints.ai_socktype = SOCK_RAW;
         hints.ai_protocol = IPPROTO_TCP;
         int con;
+        char *message;
 
         if ((getaddrinfo(hostName, portNumber, &hints, &results)) != 0)
         {
@@ -87,11 +97,17 @@ int main(int ac, char **av)
             printf("Failed to create or connect Client Socket.\n");
             exit(EXIT_FAILURE);
         }
-    }
-    else
-    {
-        fprintf(stderr, "Usage: %s port\n", av[0]);
-        exit(EXIT_FAILURE);
+        message = "test socket";
+        if (sendto(ClientSocket, message, ft_strlen(message), 0, record->ai_addr, record->ai_addrlen) == -1)
+        {
+            printf("Failed to perform.\n");
+            exit(EXIT_FAILURE);
+        }
+        else
+        {
+            printf("Subliminal message has been planted\n");
+        }
+        close(ClientSocket);
     }
     return 0;
 }
