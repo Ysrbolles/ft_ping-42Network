@@ -41,4 +41,7 @@ struct ping_pkt
    struct icmphdr hdr; 
    char msg[PACKET_PING_SIZE - sizeof(struct icmphdr)]; 
 }g_pckt; 
+
+unsigned short checksum(unsigned short *buffer, int len);
+
 #endif
