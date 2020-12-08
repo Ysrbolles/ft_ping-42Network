@@ -21,8 +21,9 @@
 #include <string.h>
  #include <arpa/inet.h>
 #include "libft.h"
-#include "ip_icmp.h"
+#include <netinet/ip_icmp.h> 
 #include <signal.h>
+#include <sys/time.h>
 
 #define PACKET_PING_SIZE 64
 #define HEADERLEN ICMP

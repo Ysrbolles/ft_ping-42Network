@@ -75,6 +75,7 @@ int main(int ac, char **av)
             state = parse_flag(av[1][1]);
             printf("%d\n", state);
         }
+	int ClinetSocket = 0;
         const char *hostName = av[2];
         // const char *portNumber = "https";
         // int ClientSocket;
@@ -89,12 +90,12 @@ int main(int ac, char **av)
             printf("Faied to translate Client Socket.\n");
             exit(EXIT_FAILURE);
         }
-        socket_loop(results);
+        ClientSocket = socket_loop(results);
         signal(SIGINT, intHandler);
         printf("PING %s : %zu(%zu) data bytes\n",
                hostName, PACKET_PING_SIZE,sizeof(g_pckt) + 20);
-
-        // while (record != NULL)
+	send_ping(ClientSocket, record->ai_addr);
+        // while (record != NULL)ddddd
         // {
         //     ClientSocket = socket(record->ai_family, record->ai_socktype, record->ai_protocol);
         //     printf("**********> %d\n", ClientSocket);
