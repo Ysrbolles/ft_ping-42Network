@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ping.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybolles <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 16:38:07 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/03 16:38:09 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/08 15:07:17 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int main(int ac, char **av)
 {
     if (ac < 2)
     {
-        fprintf(stderr, "Usage: %s port\n", av[0]);
+        fprintf(stderr, "ping: usage error: Destination address required\n");
         exit(EXIT_FAILURE);
     }
     else
@@ -84,15 +84,15 @@ int main(int ac, char **av)
         hints.ai_family = AF_UNSPEC;
         hints.ai_socktype = SOCK_RAW;
         hints.ai_protocol = IPPROTO_ICMP;
-        if ((getaddrinfo(hostName, "https", &hints, &results)) != 0)
+        if ((getaddrinfo(hostName, NULL, &hints, &results)) != 0)
         {
             printf("Faied to translate Client Socket.\n");
             exit(EXIT_FAILURE);
         }
         socket_loop(results);
         signal(SIGINT, intHandler);
-        printf("PING %s : %zu data bytes\n",
-               hostName, sizeof(g_pckt));
+        printf("PING %s : %zu(%zu) data bytes\n",
+               hostName, PACKET_PING_SIZE,sizeof(g_pckt) + 20);
 
         // while (record != NULL)
         // {

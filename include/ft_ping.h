@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ping.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybolles <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 19:04:29 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/06 10:06:30 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/06 21:09:49 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
  #include <arpa/inet.h>
 #include "libft.h"
 #include "ip_icmp.h"
+#include <signal.h>
 
 #define PACKET_PING_SIZE 64
 #define HEADERLEN ICMP

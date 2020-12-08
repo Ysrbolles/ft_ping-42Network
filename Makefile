@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ybolles <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/04 16:33:11 by ybolles           #+#    #+#              #
-#    Updated: 2020/12/04 17:01:30 by ybolles          ###   ########.fr        #
+#    Updated: 2020/12/06 21:08:56 by ybolles          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ping
-GCC = gcc -c -Wall -Werror -Wextra
+GCC = gcc -c #-Wall -Werror -Wextra
 PATH_INC = include/
 INC = $(addprefix $(PATH_INC), ft_ping.h)
 PATH_INC_LIB = libft/
