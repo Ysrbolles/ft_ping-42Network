@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 16:38:07 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/09 13:26:25 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/09 15:43:53 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,14 @@ int main(int ac, char **av)
             fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
             exit(1);
         }
-
         p = servinfo;
         while ((p->ai_next != NULL))
         {
             if ((sockfd = socket(p->ai_family, p->ai_socktype,
                                  p->ai_protocol)) == -1)
-            {
-                perror("socket");
                 continue;
-            }
         }
-
         // loop through all the results and connect to the first we can
-
         if (p == NULL)
         {
             // looped off the end of the list with no connection
@@ -63,9 +57,8 @@ int main(int ac, char **av)
         printf("%d\n", sockfd);
         char str[INET_ADDRSTRLEN];
         inet_pton(p->ai_family, av[1], &(p->ai_addr));
-        printf(" ---------> %s\n", str);
+        // printf(" ---------> %s\n", inet_pton(p->ai_family, av[1], &(p->ai_addr)));
         inet_ntop(p->ai_family, &(p->ai_addr), str, sizeof(str));
-
         printf(" ---------> %s\n", str);
     }
 }
