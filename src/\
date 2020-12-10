@@ -12,24 +12,10 @@
 
 #include "ft_ping.h"
 #include <string.h>
-
-struct addrinfo *copy(struct addrinfo *params)
-{
-	struct addrinfo *on;
-
-	on = malloc(sizeof(struct addrinfo*));
-
-	on->ai_family = params->ai_family;
-	return(on);
-}
-
 int socket_while(struct addrinfo *rp)
 {
     int sock;
     t_params params;
-
-
-    //params.addr_info[0].ai_family = rp[0].ai_family; 
 
     while (rp != NULL)
     {
@@ -39,14 +25,11 @@ int socket_while(struct addrinfo *rp)
 
         if (sock != -1)
         {	
-	// printf(" ------> Seg \n");
-	// printf(" ------> SockII : %d\n", sock);
-	//printf("==>%d",params.addr_info->ai_family);
-		//params.addr_info->ai_family = rp->ai_family;
-	//params.addr_info->ai_family  = rp->ai_family; 
+	//    printf(" ------> Seg \n");
+	 //   printf(" ------> SockII : %d\n", sock);
+	params.addr_info->ai_family = rp->ai_family;
         //memcpy(params.addr_info, rp, sizeof(struct addrinfo));
-	params.addr_info = copy(rp);	
-           printf("\n ++++++++ %d\n", params.addr_info->ai_family);
+           printf("\n ++++++++ \n");
       //     printf("==>%d",sock);
 	    return (sock);
         }
@@ -54,6 +37,8 @@ int socket_while(struct addrinfo *rp)
      rp =  rp->ai_next;
     // printf("\n ++++++ \n");
     }
+    if(rp == -1)
+	    return (-1);
 
     return (sock);
 }
