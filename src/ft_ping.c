@@ -29,19 +29,20 @@ struct addrinfo *copy(struct addrinfo *params)
 
 int socket_while(struct addrinfo *rp,t_params *params)
 {
-	int sock;
+	int sock = 0;
 	int i = 0;
 	while (rp != NULL)
 	{
 		sock = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
-		printf("++++++++++++> %d \n", sock); 
+		//printf("++++++++++++> %d \n", sock); 
 		if(sock == -1){
-			printf("-------> -1 %d\n" , sock);	
+		//	printf("-------> -1 %d\n" , sock);	
 			continue;
 		}
 		if (sock != -1)
 		{
 			params->addr_info = copy(rp);
+			printf("==> %d\n",sock);
 			return (sock);
 		}
 		rp = rp->ai_next;
@@ -68,6 +69,9 @@ int cerate_sock(char *av,t_params *params)
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
 		exit(1);
 	}
+	int jarb = 0;
+	jarb = socket(servinfo->ai_family, servinfo->ai_socktype, servinfo->ai_protocol);
+	printf("-----------> jarb nta malk -----> %d \n", jarb);
 	sockfd = socket_while(servinfo,params);
 	//printf("==>%d",params->addr_info->ai_family);
 	return (sockfd);
