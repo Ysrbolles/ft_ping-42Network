@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 19:04:29 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/06 21:09:49 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/10 14:02:42 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 #include <netdb.h>
 #include <stdlib.h>
 #include <string.h>
- #include <arpa/inet.h>
+#include <arpa/inet.h>
 #include "libft.h"
-#include <netinet/ip_icmp.h> 
+#include <netinet/ip_icmp.h>
 #include <signal.h>
 #include <sys/time.h>
 
@@ -36,11 +36,17 @@ typedef struct s_flags
         struct addrinfo info;
 } t_flags;
 
-struct ping_pkt 
+typedef struct s_params
 {
-   struct icmphdr hdr; 
-   char msg[PACKET_PING_SIZE - sizeof(struct icmphdr)]; 
-}g_pckt; 
+        struct addrinfo *addr_info;
+        int ClinetSocket;
+} t_params;
+
+typedef struct ping_pkt
+{
+        struct icmphdr hdr;
+        char msg[PACKET_PING_SIZE - sizeof(struct icmphdr)];
+} g_pckt;
 
 unsigned short checksum(unsigned short *buffer, int len);
 
