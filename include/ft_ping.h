@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 19:04:29 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/10 14:02:42 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/10 21:12:42 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ typedef struct s_params
         int ClinetSocket;
 } t_params;
 
-typedef struct ping_pkt
+typedef struct s_ping_pkt
 {
         struct icmphdr hdr;
         char msg[PACKET_PING_SIZE - sizeof(struct icmphdr)];
-} g_pckt;
+} t_ping_pkt;
 
 unsigned short checksum(unsigned short *buffer, int len);
 
