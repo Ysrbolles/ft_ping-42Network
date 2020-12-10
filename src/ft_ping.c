@@ -11,48 +11,37 @@
 /* ************************************************************************** */
 
 #include "ft_ping.h"
-#include <string.h>
 
 struct addrinfo *copy(struct addrinfo *params)
 {
-	struct addrinfo *on;
+    struct addrinfo *on;
 
-	on = malloc(sizeof(struct addrinfo*));
+    on = malloc(sizeof(struct addrinfo *));
 
-	on->ai_family = params->ai_family;
-	return(on);
+    on->ai_family = params->ai_family;
+    on->ai_socktype = params->ai_socktype;
+    on->ai_protocol = params->ai_protocol;
+    on->ai_addrlen = params->ai_addrlen;
+    on->ai_addr = params->ai_addr;
+    on->ai_canonname = params->ai_canonname;
+    return (on);
 }
 
 int socket_while(struct addrinfo *rp)
 {
     int sock;
     t_params params;
-
-
-    //params.addr_info[0].ai_family = rp[0].ai_family; 
-
     while (rp != NULL)
     {
         if (sock = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol) == -1)
             continue;
-   //     printf(" Sock --------> %d\n", sock);
-
         if (sock != -1)
-        {	
-	// printf(" ------> Seg \n");
-	// printf(" ------> SockII : %d\n", sock);
-	//printf("==>%d",params.addr_info->ai_family);
-		//params.addr_info->ai_family = rp->ai_family;
-	//params.addr_info->ai_family  = rp->ai_family; 
-        //memcpy(params.addr_info, rp, sizeof(struct addrinfo));
-	params.addr_info = copy(rp);	
-           printf("\n ++++++++ %d\n", params.addr_info->ai_family);
-      //     printf("==>%d",sock);
-	    return (sock);
+        {
+            params.addr_info = copy(rp);
+            printf("\n ++++++++ %d\n", params.addr_info->ai_family);
+            return (sock);
         }
-//	printf("\n +++++++ \n");
-     rp =  rp->ai_next;
-    // printf("\n ++++++ \n");
+        rp = rp->ai_next;
     }
 
     return (sock);
@@ -74,9 +63,9 @@ int cerate_sock(char *av)
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
         exit(1);
     }
-  //  printf("\n +++++++++++ \n");
+    //  printf("\n +++++++++++ \n");
     sockfd = socket_while(servinfo);
-  //  printf(" -------> sockfd %d\n" , sockfd);
+    //  printf(" -------> sockfd %d\n" , sockfd);
     return (sockfd);
 }
 
