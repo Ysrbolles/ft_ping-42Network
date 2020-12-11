@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 16:38:07 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/11 18:26:38 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/11 18:31:15 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,9 @@ int main(int ac, char **av)
     {
         if ((params.ClinetSocket = cerate_sock(av[1], &params)) == -1)
             printf("Socket Failed\n");
-<<<<<<< HEAD
-        char str[INET_ADDRSTRLEN];
-        inet_ntop(params.addr_info->ai_family, &((struct sockaddr_in *)(void *)params.addr_info->ai_addr)->sin_addr, str, sizeof(str));
-=======
         printf("------------:>%d\n", params.addr_info->ai_family);
         // inet_pton(params.addr_info->ai_family, av[1], &params.addr_info->ai_addr);
         inet_ntop(params.addr_info->ai_family, &((struct sockaddr_in *)(void *)params.addr_info->ai_addr)->sin_addr, params.addrstr, sizeof(params.addrstr));
->>>>>>> aea73784167d691d0fa478b26974cecfd2e280f5
 
         printf("PING %s (%s) %lu(%lu) bytes of data.\n",
                av[1], params.addrstr,
