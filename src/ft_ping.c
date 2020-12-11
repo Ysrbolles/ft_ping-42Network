@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 16:38:07 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/10 21:13:28 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/11 16:47:23 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,13 @@ int main(int ac, char **av)
             printf("Socket Failed\n");
         printf("------------:>%d\n", params.addr_info->ai_family);
         char str[INET_ADDRSTRLEN];
-       // inet_pton(params.addr_info->ai_family, av[1], &params.addr_info->ai_addr);
+        // inet_pton(params.addr_info->ai_family, av[1], &params.addr_info->ai_addr);
         inet_ntop(params.addr_info->ai_family, &((struct sockaddr_in *)(void *)params.addr_info->ai_addr)->sin_addr, str, sizeof(str));
 
-        printf("PING %s (%s) %zu(%zu) bytes of data.\n",
-		   av[1], str,
-		PACKET_PING_SIZE, sizeof(t_ping_pkt) + 20);
-
+        printf("PING %s (%s) %lu(%lu) bytes of data.\n",
+               av[1], str,
+               PACKET_PING_SIZE, sizeof(t_ping_pkt) + 20);
+        gettimeofday(&params.start_time, NULL);
     }
     return (0);
 }
