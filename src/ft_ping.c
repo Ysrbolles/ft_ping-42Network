@@ -95,16 +95,13 @@ int main(int ac, char **av)
             printf("Socket Failed\n");
         printf("------------:>%d\n", params.addr_info->ai_family);
         char str[INET_ADDRSTRLEN];
-        inet_pton(params.addr_info->ai_family, av[1], &params.addr_info->ai_addr);
-        struct sockaddr_in *t = (struct sockaddr_in *)&params.addr_info->ai_addr;
-        //t.ai_addr = params.addr_info->ai_addr;
-        //printf(" ---------> %s\n", inet_pton(p->ai_family, av[1], &(p->ai_addr)));
+       // inet_pton(params.addr_info->ai_family, av[1], &params.addr_info->ai_addr);
         inet_ntop(params.addr_info->ai_family, &((struct sockaddr_in *)(void *)params.addr_info->ai_addr)->sin_addr, str, sizeof(str));
 
-        printf(" ---------> %s\n", str);
         printf("PING %s (%s) %zu(%zu) bytes of data.\n",
 		   av[1], str,
-		PACKET_PING_SIZE+ sizeof(void *) * 2, sizeof(t_ping_pkt) + 20);
+		PACKET_PING_SIZE, sizeof(t_ping_pkt) + 20);
+
     }
     return (0);
 }
