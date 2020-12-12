@@ -81,16 +81,15 @@ int main(int ac, char **av)
     }
     else
     {
-        if ((params.ClinetSocket = cerate_sock(av[1], &params)) == -1)
+        if ((params.ClientSocket = cerate_sock(av[1], &params)) == -1)
             printf("Socket Failed\n");
-        printf("------------:>%d\n", params.addr_info->ai_family);
-        // inet_pton(params.addr_info->ai_family, av[1], &params.addr_info->ai_addr);
         inet_ntop(params.addr_info->ai_family, &((struct sockaddr_in *)(void *)params.addr_info->ai_addr)->sin_addr, params.addrstr, sizeof(params.addrstr));
-
-        printf("PING %s (%s) %lu(%lu) bytes of data.\n",
+        printf("PING %s (%s) %zu(%zu) bytes of data.\n",
                av[1], params.addrstr,
-               PACKET_PING_SIZE, sizeof(t_ping_pkt) + 20);
+               56, sizeof(t_ping_pkt) + 20);
         gettimeofday(&params.start_time, NULL);
+	int r = get_packet(&params);
     }
+
     return (0);
 }

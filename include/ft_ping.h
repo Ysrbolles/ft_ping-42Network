@@ -39,7 +39,7 @@ typedef struct s_flags
 typedef struct s_params
 {
         struct addrinfo *addr_info;
-        int ClinetSocket;
+        int ClientSocket;
         struct timeval start_time;
         char  addrstr[INET_ADDRSTRLEN];
 } t_params;
@@ -50,6 +50,6 @@ typedef struct s_ping_pkt
         char msg[PACKET_PING_SIZE - sizeof(struct icmphdr)];
 } t_ping_pkt;
 
-unsigned short checksum(unsigned short *buffer, int len);
-
+unsigned short checksum(void *b, int len);
+int	get_packet(t_params *params);
 #endif
