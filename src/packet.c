@@ -36,12 +36,15 @@ int get_packet(t_params *params)
 	t_ping_pkt pkt;
 	int sending;
 	struct msghdr msg;
-	struct iovec iov;
+	struct iovec iov[1];
 	int ret;
+	char buffer[80];
 	pkt.hdr.type = ICMP_ECHO;
 	pkt.hdr.un.echo.id = getpid();
 	pkt.hdr.checksum = 0;
 	pkt.hdr.checksum = checksum((unsigned short *)&pkt, sizeof(pkt));
+	iov[0].iov_base = buffer;
+	iov[0].iov_len = sizeof(buffer);
 	msg.msg_iov = &iov;
 	msg.msg_iovlen = 1;
 
