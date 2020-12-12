@@ -34,12 +34,30 @@ unsigned short checksum(void *b, int len)
 int get_packet(t_params *params)
 {
 	t_ping_pkt pkt;
+	int sending;
+	struct msghdr msg;
+	struct iovec iov;
+	int ret;
 	pkt.hdr.type = ICMP_ECHO;
 	pkt.hdr.un.echo.id = getpid();
+	pkt.hdr.checksum = 0;
+	pkt.hdr.checksum = checksum((unsigned short *)&pkt, sizeof(pkt));
+	msg.msg_iov = &iov;
+	msg.msg_iovlen = 1;
+
 	printf("--------------> CLientSocket (%d)\n----------------> IP (%s)\n--------------> PID (%d)\n"
 			, params->ClientSocket,
 			params->addrstr,
 			pkt.hdr.un.echo.id);
-	printf("-----------> PIDII (%d)\n" , getpid());
+	sending = sendto(params->ClientSocket, &pkt,sizeof(pkt), 0, params->addr_info->ai_addr, params->addr_info->ai_addrlen);
+	if(sending < sizeof(pkt))
+		printf("------> hahaha makhdmatch");
+	printf("--------------> Sending  (%d)\n", sending);
+	msg.msg_name = params->addr_info->ai_addr;
+	msg.msg_namelen = params->addr_info->ai_addrlen;
+	ret = recvmsg(params->ClientSocket, &msg, MSG_DONTWAIT);
+	printf("--------------> Ret (%d)\n" , ret);
+	if(ret < 0)
+		printf("------------> Makhdmatch 3awtani hahahahah\n");
 	return 0;
 }
