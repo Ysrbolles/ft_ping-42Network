@@ -33,7 +33,13 @@ unsigned short checksum(void *b, int len)
 
 int get_packet(t_params *params)
 {
-	printf("--------------> %d\n----------------> (%s)\n", params->ClientSocket,
-			params->addrstr);
+	t_ping_pkt pkt;
+	pkt.hdr.type = ICMP_ECHO;
+	pkt.hdr.un.echo.id = getpid();
+	printf("--------------> CLientSocket (%d)\n----------------> IP (%s)\n--------------> PID (%d)\n"
+			, params->ClientSocket,
+			params->addrstr,
+			pkt.hdr.un.echo.id);
+	printf("-----------> PIDII (%d)\n" , getpid());
 	return 0;
 }
