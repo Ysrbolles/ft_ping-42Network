@@ -45,6 +45,7 @@ typedef struct s_params
 	struct timeval start_time;
 	char  addrstr[INET_ADDRSTRLEN];
 	char *Host;
+
 } t_params;
 
 typedef struct s_ping_pkt
@@ -56,6 +57,6 @@ typedef struct s_ping_pkt
 unsigned short checksum(void *b, int len);
 int	get_packet(t_params *params);
 int	send_packet(t_params *params);
-void	start_signal(void);
+void	start_signal(t_params *params);
 void 	intHandler(int dummy);
 #endif

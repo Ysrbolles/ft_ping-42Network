@@ -56,6 +56,7 @@ int get_packet(t_params *params)
 	struct iovec iov[1];
 	int ret;
 	char buffer[80];
+
 	iov[0].iov_base = buffer;
 	iov[0].iov_len = sizeof(buffer);
 	msg.msg_iov = iov;

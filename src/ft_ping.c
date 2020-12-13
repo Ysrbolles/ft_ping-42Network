@@ -60,6 +60,7 @@ int cerate_sock(char *av, t_params *params)
 	int sockfd;
 	struct addrinfo hints, *servinfo, *p;
 	int rv;
+
 	memset(&hints, 0, sizeof hints);
 	hints.ai_family = AF_INET;        // Set IP family to IPv4
 	hints.ai_socktype = SOCK_RAW;     // Set socket type to RAW
@@ -80,6 +81,8 @@ int cerate_sock(char *av, t_params *params)
 int main(int ac, char **av)
 {
 	t_params params;
+	struct timeval start;
+	struct end;
 	if (ac != 2)
 	{
 		printf("Usage ERROR \n");
@@ -96,9 +99,9 @@ int main(int ac, char **av)
 				av[1], params.addrstr,
 				56, sizeof(t_ping_pkt) + 20);
 		gettimeofday(&params.start_time, NULL);
-		send_packet(&params);
-		printf("-------> pingloop (%d) \n", pingloop);
-		start_signal();
+		//send_packet(&params);
+		gettimeofday(&start, NULL);
+		start_signal(&params);
 		while(pingloop)
 			get_packet(&params);
 	}
