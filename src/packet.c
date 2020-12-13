@@ -56,7 +56,7 @@ int get_packet(t_params *params)
 	char buffer[80];
 	iov[0].iov_base = buffer;
 	iov[0].iov_len = sizeof(buffer);
-	msg.msg_iov = &iov;
+	msg.msg_iov = iov;
 	msg.msg_iovlen = 1;
 	msg.msg_name = params->addr_info->ai_addr;
 	msg.msg_namelen = params->addr_info->ai_addrlen;

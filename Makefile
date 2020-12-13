@@ -21,7 +21,9 @@ PATH_LIB = libft/
 LIB = -L $(PATH_LIB) -lft
 
 SRC_FILE = ft_ping.c \
-	   packet.c
+	   packet.c \
+	   ft_ping.c
+	  
 
 ALL_OBJ = $(addprefix $(PATH_OBJ), $(SRC_FILE:.c=.o))
 

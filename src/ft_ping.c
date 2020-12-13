@@ -12,6 +12,8 @@
 
 #include "ft_ping.h"
 
+//extern int pingloop = 1;
+
 struct addrinfo *copy(struct addrinfo *params)
 {
 	struct addrinfo *on;
@@ -48,6 +50,10 @@ int socket_while(struct addrinfo *rp, t_params *params)
 	}
 	return (sock);
 }
+
+/*
+**
+*/
 
 int cerate_sock(char *av, t_params *params)
 {
@@ -89,7 +95,9 @@ int main(int ac, char **av)
 				56, sizeof(t_ping_pkt) + 20);
 		gettimeofday(&params.start_time, NULL);
 		send_packet(&params);
-		while(1)
+		printf("------> pingloop (%d)\n", pingloop);
+		start_signal();
+		while(pingloop)
 			get_packet(&params);
 	}
 
