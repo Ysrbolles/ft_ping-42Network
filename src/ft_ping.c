@@ -12,7 +12,7 @@
 
 #include "ft_ping.h"
 
-//extern int pingloop = 1;
+int pingloop = 1;
 
 struct addrinfo *copy(struct addrinfo *params)
 {
@@ -87,6 +87,8 @@ int main(int ac, char **av)
 	}
 	else
 	{
+		params.Host = malloc(sizeof(av[1]));
+		params.Host = av[1];
 		if ((params.ClientSocket = cerate_sock(av[1], &params)) == -1)
 			printf("Socket Failed\n");
 		inet_ntop(params.addr_info->ai_family, &((struct sockaddr_in *)(void *)params.addr_info->ai_addr)->sin_addr, params.addrstr, sizeof(params.addrstr));
@@ -95,7 +97,7 @@ int main(int ac, char **av)
 				56, sizeof(t_ping_pkt) + 20);
 		gettimeofday(&params.start_time, NULL);
 		send_packet(&params);
-		printf("------> pingloop (%d)\n", pingloop);
+		printf("-------> pingloop (%d) \n", pingloop);
 		start_signal();
 		while(pingloop)
 			get_packet(&params);

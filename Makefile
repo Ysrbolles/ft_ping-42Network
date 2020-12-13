@@ -22,8 +22,7 @@ LIB = -L $(PATH_LIB) -lft
 
 SRC_FILE = ft_ping.c \
 	   packet.c \
-	   ft_ping.c
-	  
+	   ft_signals.c 
 
 ALL_OBJ = $(addprefix $(PATH_OBJ), $(SRC_FILE:.c=.o))
 
