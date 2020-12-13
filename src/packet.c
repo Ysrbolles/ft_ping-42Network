@@ -63,7 +63,6 @@ int get_packet(t_params *params)
 	msg.msg_iovlen = 1;
 	msg.msg_name = params->addr_info->ai_addr;
 	msg.msg_namelen = params->addr_info->ai_addrlen;
-	sleep(1);
 	ret = recvmsg(params->ClientSocket, &msg, MSG_DONTWAIT);
 	printf("--------------> Ret (%d)\n" , ret);
 	if(ret < 0)
