@@ -17,7 +17,7 @@ unsigned short checksum(void *b, int len)
 	unsigned short *buff = b;
 	unsigned int sum =0;
 	unsigned short result;
-	
+
 	while(len > 1)
 	{
 		sum += *(unsigned char*)buff;
@@ -30,24 +30,15 @@ unsigned short checksum(void *b, int len)
 	result = ~sum;
 	return result;
 }
-
-int get_packet(t_params *params)
+int send_packet(t_params *params)
 {
 	t_ping_pkt pkt;
 	int sending;
-	struct msghdr msg;
-	struct iovec iov[1];
-	int ret;
-	char buffer[80];
+
 	pkt.hdr.type = ICMP_ECHO;
 	pkt.hdr.un.echo.id = getpid();
 	pkt.hdr.checksum = 0;
 	pkt.hdr.checksum = checksum((unsigned short *)&pkt, sizeof(pkt));
-	iov[0].iov_base = buffer;
-	iov[0].iov_len = sizeof(buffer);
-	msg.msg_iov = &iov;
-	msg.msg_iovlen = 1;
-
 	printf("--------------> CLientSocket (%d)\n----------------> IP (%s)\n--------------> PID (%d)\n"
 			, params->ClientSocket,
 			params->addrstr,
@@ -56,8 +47,20 @@ int get_packet(t_params *params)
 	if(sending < sizeof(pkt))
 		printf("------> hahaha makhdmatch");
 	printf("--------------> Sending  (%d)\n", sending);
+}
+int get_packet(t_params *params)
+{
+	struct msghdr msg;
+	struct iovec iov[1];
+	int ret;
+	char buffer[80];
+	iov[0].iov_base = buffer;
+	iov[0].iov_len = sizeof(buffer);
+	msg.msg_iov = &iov;
+	msg.msg_iovlen = 1;
 	msg.msg_name = params->addr_info->ai_addr;
 	msg.msg_namelen = params->addr_info->ai_addrlen;
+
 	ret = recvmsg(params->ClientSocket, &msg, MSG_DONTWAIT);
 	printf("--------------> Ret (%d)\n" , ret);
 	if(ret < 0)

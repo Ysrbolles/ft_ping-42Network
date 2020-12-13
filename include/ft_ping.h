@@ -30,26 +30,27 @@
 
 typedef struct s_flags
 {
-        int FLAG_V;
-        int FLAG_H;
-        char *HOST;
-        struct addrinfo info;
+	int FLAG_V;
+	int FLAG_H;
+	char *HOST;
+	struct addrinfo info;
 } t_flags;
 
 typedef struct s_params
 {
-        struct addrinfo *addr_info;
-        int ClientSocket;
-        struct timeval start_time;
-        char  addrstr[INET_ADDRSTRLEN];
+	struct addrinfo *addr_info;
+	int ClientSocket;
+	struct timeval start_time;
+	char  addrstr[INET_ADDRSTRLEN];
 } t_params;
 
 typedef struct s_ping_pkt
 {
-        struct icmphdr hdr;
-        char msg[PACKET_PING_SIZE - sizeof(struct icmphdr)];
+	struct icmphdr hdr;
+	char msg[PACKET_PING_SIZE - sizeof(struct icmphdr)];
 } t_ping_pkt;
 
 unsigned short checksum(void *b, int len);
 int	get_packet(t_params *params);
+int	send_packet(t_params *params);
 #endif
