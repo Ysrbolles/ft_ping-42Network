@@ -28,7 +28,7 @@
 #define PACKET_PING_SIZE 64
 #define HEADERLEN ICMP
 
-extern int pingloop;
+extern t_params *params;
 
 typedef struct s_flags
 {
@@ -40,6 +40,7 @@ typedef struct s_flags
 
 typedef struct s_params
 {
+	int pingloop;
 	struct addrinfo *addr_info;
 	int ClientSocket;
 	struct timeval start_time;
