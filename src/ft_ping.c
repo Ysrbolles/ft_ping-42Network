@@ -99,11 +99,14 @@ int main(int ac, char **av)
 				av[1], params.addrstr,
 				56, sizeof(t_ping_pkt) + 20);
 		gettimeofday(&params.start_time, NULL);
-		//send_packet(&params);
 		gettimeofday(&start, NULL);
 		start_signal(&params);
-		while(pingloop)
+		if ( alarm(3) > 0)
+		{
+			while(pingloop)
 			get_packet(&params);
+		}
+
 	}
 
 	return (0);
