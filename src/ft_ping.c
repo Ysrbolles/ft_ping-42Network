@@ -51,8 +51,8 @@ int socket_while(struct addrinfo *rp)
 }
 
 /*
-**
-*/
+ **
+ */
 
 int cerate_sock(char *av)
 {
@@ -96,16 +96,16 @@ int main(int ac, char **av)
 		
 		inet_ntop(params.addr_info->ai_family, &((struct sockaddr_in *)(void *)params.addr_info->ai_addr)->sin_addr, params.addrstr, sizeof(params.addrstr));
 		printf("PING %s (%s) %zu(%zu) bytes of data.\n",
-			   av[1], params.addrstr,
-			   56, sizeof(t_ping_pkt) + 20);
+				av[1], params.addrstr,
+				56, sizeof(t_ping_pkt) + 20);
 		gettimeofday(&params.start_time, NULL);
 		start_signal();
-		if (alarm(3) > 0)
+		while (params.pingloop)
 		{
-			while (params.pingloop)
-				get_packet();
+			get_packet();
+			pause();
 		}
-	}
+		}
 
 	return (0);
 }
