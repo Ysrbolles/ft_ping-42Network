@@ -28,7 +28,7 @@
 #define PACKET_PING_SIZE 64
 #define HEADERLEN ICMP
 
-extern t_params *params;
+
 
 typedef struct s_flags
 {
@@ -48,6 +48,8 @@ typedef struct s_params
 	char *Host;
 
 } t_params;
+
+extern t_params *params;
 
 typedef struct s_ping_pkt
 {
