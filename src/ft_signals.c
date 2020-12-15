@@ -1,26 +1,28 @@
 
 
-
 #include "ft_ping.h"
 
 t_params params;
 
-void intHandler(int dummy) 
-{ 
-	params.pingloop = 0;
-} 
-
-void alarmhandler(int i)
+void intHandler(int signum)
 {
-	printf("----------------------> Khriwa\n");
-	send_packet();
-	alarm(3);
-
+	params.pingloop = 0;
+	printf("\n--- %s ping statistics ---\n", params.Host);
 }
 
-void	start_signal()
+void alarmhandler(int signum)
+{
+	if (signum == SIGALRM)
+	{
+		printf("----------------------> Khriwa\n");
+		send_packet();
+		alarm(3);
+	}
+}
+
+void start_signal()
 {
 	signal(SIGALRM, alarmhandler);
 	alarm(3);
-	signal(SIGINT, intHandler);	
+	signal(SIGINT, intHandler);
 }

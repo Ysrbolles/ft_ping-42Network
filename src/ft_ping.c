@@ -103,7 +103,7 @@ int main(int ac, char **av)
 		while (params.pingloop)
 		{
 			get_packet();
-			pause();
+			alarm(2);
 		}
 		}
 
