@@ -3,11 +3,11 @@
 
 #include "ft_ping.h"
 
-extern int pingloop;
+t_params *params;
 
 void intHandler(int dummy) 
 { 
-    pingloop = 0;
+    params->pingloop = 0;
 } 
 
 void alarmhandler(int i)
@@ -18,7 +18,7 @@ void alarmhandler(int i)
 
 }
 
-void	start_signal(t_params *params)
+void	start_signal()
 {
 	//alarm(2);
 	signal(SIGALRM, alarmhandler);
@@ -27,6 +27,6 @@ void	start_signal(t_params *params)
 		//alarmhandler(SIGALRM);
 
 	signal(SIGINT, intHandler);
-	send_packet(params);	
+	send_packet();	
 	}
 }

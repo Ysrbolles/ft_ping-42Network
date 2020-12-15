@@ -56,8 +56,8 @@ typedef struct s_ping_pkt
 } t_ping_pkt;
 
 unsigned short checksum(void *b, int len);
-int	get_packet(t_params *params);
-int	send_packet(t_params *params);
-void	start_signal(t_params *params);
+int	get_packet();
+int	send_packet();
+void	start_signal();
 void 	intHandler(int dummy);
 #endif

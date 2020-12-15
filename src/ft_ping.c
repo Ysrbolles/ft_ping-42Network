@@ -29,7 +29,7 @@ struct addrinfo *copy(struct addrinfo *params)
 	return (on);
 }
 
-int socket_while(struct addrinfo *rp, t_params *params)
+int socket_while(struct addrinfo *rp)
 {
 	int sock = 0;
 	int i = 0;
@@ -55,7 +55,7 @@ int socket_while(struct addrinfo *rp, t_params *params)
 **
 */
 
-int cerate_sock(char *av, t_params *params)
+int cerate_sock(char *av)
 {
 	int sockfd;
 	struct addrinfo hints, *servinfo, *p;
@@ -75,7 +75,7 @@ int cerate_sock(char *av, t_params *params)
 	}
 	int jarb = 0;
 	jarb = socket(servinfo->ai_family, servinfo->ai_socktype, servinfo->ai_protocol);
-	sockfd = socket_while(servinfo, params);
+	sockfd = socket_while(servinfo);
 	return (sockfd);
 }
 
@@ -92,7 +92,7 @@ int main(int ac, char **av)
 	{
 		params->Host = malloc(sizeof(av[1]));
 		params->Host = av[1];
-		if ((params->ClientSocket = cerate_sock(av[1], params)) == -1)
+		if ((params->ClientSocket = cerate_sock(av[1])) == -1)
 			printf("Socket Failed\n");
 		inet_ntop(params->addr_info->ai_family, &((struct sockaddr_in *)(void *)params->addr_info->ai_addr)->sin_addr, params->addrstr, sizeof(params->addrstr));
 		printf("PING %s (%s) %zu(%zu) bytes of data.\n",
@@ -100,11 +100,11 @@ int main(int ac, char **av)
 			   56, sizeof(t_ping_pkt) + 20);
 		gettimeofday(params->start_time, NULL);
 		gettimeofday(&start, NULL);
-		start_signal(params);
+		start_signal();
 		if (alarm(3) > 0)
 		{
 			while (params->pingloop)
-				get_packet(params);
+				get_packet();
 		}
 	}
 

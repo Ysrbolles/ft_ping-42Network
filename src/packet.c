@@ -12,7 +12,7 @@
 
 #include "ft_ping.h"
 
-int pingloop;
+t_params *params;
 
 unsigned short checksum(void *b, int len)
 {
@@ -32,7 +32,7 @@ unsigned short checksum(void *b, int len)
 	result = ~sum;
 	return result;
 }
-int send_packet(t_params *params)
+int send_packet()
 {
 	t_ping_pkt pkt;
 	int sending;
@@ -50,7 +50,7 @@ int send_packet(t_params *params)
 		printf("------> hahaha makhdmatch");
 	printf("--------------> Sending  (%d)\n", sending);
 }
-int get_packet(t_params *params)
+int get_packet()
 {
 	struct msghdr msg;
 	struct iovec iov[1];
@@ -67,7 +67,7 @@ int get_packet(t_params *params)
 	printf("--------------> Ret (%d)\n" , ret);
 	if(ret < 0)
 		printf("------------> Makhdmatch 3awtani hahahahah\n");
-	if(pingloop == 0)
+	if(params->pingloop == 0)
 		printf("\n--- %s ping statistics ---\n", params->Host);
 
 	return 0;
