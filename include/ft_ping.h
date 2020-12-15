@@ -25,9 +25,10 @@
 #include <signal.h>
 #include <sys/time.h>
 
+
 #define PACKET_PING_SIZE 64
 #define HEADERLEN ICMP
-
+#define INTERVAL 200
 
 
 typedef struct s_flags
@@ -49,14 +50,13 @@ typedef struct s_params
 
 } t_params;
 
-extern t_params params;
-
 typedef struct s_ping_pkt
 {
 	struct icmphdr hdr;
 	char msg[PACKET_PING_SIZE - sizeof(struct icmphdr)];
 } t_ping_pkt;
 
+extern t_params params;
 unsigned short checksum(void *b, int len);
 int	get_packet();
 int	send_packet();

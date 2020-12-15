@@ -3,28 +3,24 @@
 
 #include "ft_ping.h"
 
+t_params params;
+
 void intHandler(int dummy) 
 { 
-    params.pingloop = 0;
+	params.pingloop = 0;
 } 
 
 void alarmhandler(int i)
 {
-	if(i == SIGALRM){
-		printf("-----> no \n");
-	}
+	printf("----------------------> Khriwa\n");
+	send_packet();
+	alarm(3);
 
 }
 
 void	start_signal()
 {
-	//alarm(2);
 	signal(SIGALRM, alarmhandler);
-	if (alarm(60) ==  0)
-	{
-		//alarmhandler(SIGALRM);
-
-	signal(SIGINT, intHandler);
-	send_packet();	
-	}
+	alarm(3);
+	signal(SIGINT, intHandler);	
 }
