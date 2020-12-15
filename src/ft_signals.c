@@ -3,11 +3,9 @@
 
 #include "ft_ping.h"
 
-t_params *params;
-
 void intHandler(int dummy) 
 { 
-    params->pingloop = 0;
+    params.pingloop = 0;
 } 
 
 void alarmhandler(int i)

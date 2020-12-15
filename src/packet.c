@@ -12,7 +12,6 @@
 
 #include "ft_ping.h"
 
-t_params *params;
 
 unsigned short checksum(void *b, int len)
 {
@@ -42,10 +41,10 @@ int send_packet()
 	pkt.hdr.checksum = 0;
 	pkt.hdr.checksum = checksum((unsigned short *)&pkt, sizeof(pkt));
 	printf("--------------> CLientSocket (%d)\n----------------> IP (%s)\n--------------> PID (%d)\n"
-			, params->ClientSocket,
-			params->addrstr,
+			, params.ClientSocket,
+			params.addrstr,
 			pkt.hdr.un.echo.id);
-	sending = sendto(params->ClientSocket, &pkt,sizeof(pkt), 0, params->addr_info->ai_addr, params->addr_info->ai_addrlen);
+	sending = sendto(params.ClientSocket, &pkt,sizeof(pkt), 0, params.addr_info->ai_addr, params.addr_info->ai_addrlen);
 	if(sending < sizeof(pkt))
 		printf("------> hahaha makhdmatch");
 	printf("--------------> Sending  (%d)\n", sending);
@@ -61,14 +60,14 @@ int get_packet()
 	iov[0].iov_len = sizeof(buffer);
 	msg.msg_iov = iov;
 	msg.msg_iovlen = 1;
-	msg.msg_name = params->addr_info->ai_addr;
-	msg.msg_namelen = params->addr_info->ai_addrlen;
-	ret = recvmsg(params->ClientSocket, &msg, MSG_DONTWAIT);
+	msg.msg_name = params.addr_info->ai_addr;
+	msg.msg_namelen = params.addr_info->ai_addrlen;
+	ret = recvmsg(params.ClientSocket, &msg, MSG_DONTWAIT);
 	printf("--------------> Ret (%d)\n" , ret);
 	if(ret < 0)
 		printf("------------> Makhdmatch 3awtani hahahahah\n");
-	if(params->pingloop == 0)
-		printf("\n--- %s ping statistics ---\n", params->Host);
+	if(params.pingloop == 0)
+		printf("\n--- %s ping statistics ---\n", params.Host);
 
 	return 0;
 }

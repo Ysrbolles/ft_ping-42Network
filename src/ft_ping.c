@@ -12,20 +12,19 @@
 
 #include "ft_ping.h"
 
-t_params *params;
 
-struct addrinfo *copy(struct addrinfo *params)
+struct addrinfo *copy(struct addrinfo *value)
 {
 	struct addrinfo *on;
 
 	on = malloc(sizeof(struct addrinfo *));
 
-	on->ai_family = params->ai_family;
-	on->ai_socktype = params->ai_socktype;
-	on->ai_protocol = params->ai_protocol;
-	on->ai_addrlen = params->ai_addrlen;
-	on->ai_addr = params->ai_addr;
-	on->ai_canonname = params->ai_canonname;
+	on->ai_family = value->ai_family;
+	on->ai_socktype = value->ai_socktype;
+	on->ai_protocol = value->ai_protocol;
+	on->ai_addrlen = value->ai_addrlen;
+	on->ai_addr = value->ai_addr;
+	on->ai_canonname = value->ai_canonname;
 	return (on);
 }
 
@@ -42,7 +41,7 @@ int socket_while(struct addrinfo *rp)
 		}
 		if (sock != -1)
 		{
-			params->addr_info = copy(rp);
+			params.addr_info = copy(rp);
 			return (sock);
 		}
 		rp = rp->ai_next;
@@ -61,7 +60,7 @@ int cerate_sock(char *av)
 	struct addrinfo hints, *servinfo, *p;
 	int rv;
 
-	params->pingloop = 1;
+	params.pingloop = 1;
 	memset(&hints, 0, sizeof hints);
 	hints.ai_family = AF_INET;		  // Set IP family to IPv4
 	hints.ai_socktype = SOCK_RAW;	  // Set socket type to RAW
@@ -90,20 +89,20 @@ int main(int ac, char **av)
 	}
 	else
 	{
-		params->Host = malloc(sizeof(av[1]));
-		params->Host = av[1];
-		if ((params->ClientSocket = cerate_sock(av[1])) == -1)
+		params.Host = malloc(sizeof(av[1]));
+		params.Host = av[1];
+		if ((params.ClientSocket = cerate_sock(av[1])) == -1)
 			printf("Socket Failed\n");
-		inet_ntop(params->addr_info->ai_family, &((struct sockaddr_in *)(void *)params->addr_info->ai_addr)->sin_addr, params->addrstr, sizeof(params->addrstr));
+		inet_ntop(params.addr_info->ai_family, &((struct sockaddr_in *)(void *)params.addr_info->ai_addr)->sin_addr, params.addrstr, sizeof(params.addrstr));
 		printf("PING %s (%s) %zu(%zu) bytes of data.\n",
-			   av[1], params->addrstr,
+			   av[1], params.addrstr,
 			   56, sizeof(t_ping_pkt) + 20);
-		gettimeofday(params->start_time, NULL);
+		gettimeofday(&params.start_time, NULL);
 		gettimeofday(&start, NULL);
 		start_signal();
 		if (alarm(3) > 0)
 		{
-			while (params->pingloop)
+			while (params.pingloop)
 				get_packet();
 		}
 	}

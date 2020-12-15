@@ -49,7 +49,7 @@ typedef struct s_params
 
 } t_params;
 
-extern t_params *params;
+extern t_params params;
 
 typedef struct s_ping_pkt
 {
