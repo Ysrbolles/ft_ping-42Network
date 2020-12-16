@@ -22,7 +22,6 @@ void alarmhandler(int signum)
 
 void start_signal()
 {
-	signal(SIGALRM, alarmhandler);
-	alarm(3);
+		signal(SIGALRM, alarmhandler);
 	signal(SIGINT, intHandler);
 }
