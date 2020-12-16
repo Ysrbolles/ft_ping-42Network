@@ -39,6 +39,12 @@ typedef struct s_flags
 	struct addrinfo info;
 } t_flags;
 
+typedef struct s_ping_pkt
+{
+	struct icmphdr hdr;
+	char msg[PACKET_PING_SIZE - sizeof(struct icmphdr)];
+} t_ping_pkt;
+
 typedef struct s_params
 {
 	int pingloop;
@@ -50,6 +56,7 @@ typedef struct s_params
 	int packet_send;
 	int msg_count;
 	int msg_countrecv;
+	struct t_ping_pkt pkt;
 	struct timeval time_start;
 	struct timeval time_end;
 	struct timeval tv_out;
@@ -62,11 +69,6 @@ typedef struct s_params
 	long double total;
 } t_params;
 
-typedef struct s_ping_pkt
-{
-	struct icmphdr hdr;
-	char msg[PACKET_PING_SIZE - sizeof(struct icmphdr)];
-} t_ping_pkt;
 
 extern t_params params;
 unsigned short checksum(void *b, int len);
