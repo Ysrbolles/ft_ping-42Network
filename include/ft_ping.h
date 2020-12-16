@@ -29,6 +29,7 @@
 #define PACKET_PING_SIZE 64
 #define HEADERLEN ICMP
 #define INTERVAL 200
+#define RECV_TIMEOUT 10000
 
 
 typedef struct s_flags
