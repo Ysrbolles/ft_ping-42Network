@@ -109,13 +109,13 @@ int main(int ac, char **av)
 		params.Host = av[1];
 		if ((params.ClientSocket = cerate_sock(av[1])) == -1)
 			printf("Socket Failed\n");
-		setsockopt(params.ClientSocket, SOL_IP, IP_TTL, &params.ttl, sizeof(params.ttl));
 		inet_ntop(params.addr_info->ai_family, &((struct sockaddr_in *)(void *)params.addr_info->ai_addr)->sin_addr, params.addrstr, sizeof(params.addrstr));
 		printf("PING %s (%s) %zu(%zu) bytes of data.\n",
 				av[1], params.addrstr,
 				56, sizeof(t_ping_pkt) + 20);
 		gettimeofday(&params.start_time, NULL);
 		start_signal();
+		setsockopt(params.ClientSocket, IPPROTO_IP, IP_TTL, &params.ttl, sizeof(params.ttl));
 		while (params.pingloop)
 		{
 			get_packet();
