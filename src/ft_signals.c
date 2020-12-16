@@ -13,7 +13,7 @@ void intHandler(int signum)
 void alarmhandler(int signum)
 {
 	send_packet();
-	alarm(2);
+	alarm(1);
 }
 
 void start_signal()
