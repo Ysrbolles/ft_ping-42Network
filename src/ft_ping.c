@@ -12,7 +12,6 @@
 
 #include "ft_ping.h"
 
-
 struct addrinfo *copy(struct addrinfo *value)
 {
 	struct addrinfo *on;
@@ -73,11 +72,11 @@ int cerate_sock(char *av)
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
 		exit(1);
 	}
-	sock = socket(servinfo->ai_family, servinfo->ai_socktype, servinfo->ai_protocol);
 	sockfd = socket_while(servinfo);
+	setsockopt(params.ClientSocket, IPPROTO_IP, IP_TTL, &params.ttl, sizeof(params.ttl));
 	return (sockfd);
 }
-void			ft_sleep(int sec)
+void ft_sleep(int sec)
 {
 	struct timeval current;
 	struct timeval next;
@@ -86,10 +85,10 @@ void			ft_sleep(int sec)
 	next = current;
 	next.tv_sec += sec;
 	while ((current.tv_sec < next.tv_sec ||
-				current.tv_usec < next.tv_usec) && (params.pingloop))
+			current.tv_usec < next.tv_usec) &&
+		   (params.pingloop))
 		gettimeofday(&current, NULL);
 }
-
 
 int main(int ac, char **av)
 {
@@ -111,16 +110,14 @@ int main(int ac, char **av)
 			printf("Socket Failed\n");
 		inet_ntop(params.addr_info->ai_family, &((struct sockaddr_in *)(void *)params.addr_info->ai_addr)->sin_addr, params.addrstr, sizeof(params.addrstr));
 		printf("PING %s (%s) %zu(%zu) bytes of data.\n",
-				av[1], params.addrstr,
-				56, sizeof(t_ping_pkt) + 20);
+			   av[1], params.addrstr,
+			   56, sizeof(t_ping_pkt) + 20);
 		gettimeofday(&params.start_time, NULL);
 		start_signal();
-		setsockopt(params.ClientSocket, IPPROTO_IP, IP_TTL, &params.ttl, sizeof(params.ttl));
 		while (params.pingloop)
 		{
 			get_packet();
 			ft_sleep(2);
-
 		}
 	}
 
