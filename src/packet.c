@@ -34,18 +34,22 @@ int send_packet()
 {
 	t_ping_pkt pkt;
 	int sending;
+	int i;
 
+	bzero(&pkt, sizeof(pkt));
+	i = -1;
+	while(++i < (int)sizeof(pkt.msg) - 1)
+		pkt.msg[i] = i + '0';
+	pkt.msg[i] = 0;
 	pkt.hdr.type = ICMP_ECHO;
 	pkt.hdr.un.echo.id = getpid();
+	pkt.hdr.un.echo.sequence = params.msg_count++;
 	pkt.hdr.checksum = 0;
 	pkt.hdr.checksum = checksum((unsigned short *)&pkt, sizeof(pkt));
-	printf("--------------> CLientSocket (%d)\n----------------> IP (%s)\n--------------> PID (%d)\n", params.ClientSocket,
-		   params.addrstr,
-		   pkt.hdr.un.echo.id);
 	sending = sendto(params.ClientSocket, &pkt, sizeof(pkt), 0, params.addr_info->ai_addr, params.addr_info->ai_addrlen);
-	if (sending < sizeof(pkt))
-		printf("------> hahaha makhdmatch");
-	printf("--------------> Sending  (%d)\n", sending);
+	printf("-----------> msg Count = %d\n", params.msg_count);
+	gettimeofday(&params.time_start, NULL);
+	params.msg_count == 1 ? gettimeofday(&params.tfs, NULL): 0;
 }
 int get_packet()
 {
@@ -61,6 +65,7 @@ int get_packet()
 	msg.msg_name = params.addr_info->ai_addr;
 	msg.msg_namelen = params.addr_info->ai_addrlen;
 	ret = recvmsg(params.ClientSocket, &msg, MSG_DONTWAIT);
+	printf("------------> Ret = %d\n", ret);
 	if (ret < 0)
 		printf("------------> Makhdmatch 3awtani hahahahah\n");
 

@@ -12,17 +12,13 @@ void intHandler(int signum)
 
 void alarmhandler(int signum)
 {
-	if (signum == SIGALRM)
-	{
-		printf("----------------------> Khriwa\n");
-		send_packet();
-		alarm(3);
-	}
+	send_packet();
+	alarm(2);
 }
 
 void start_signal()
 {
 	signal(SIGALRM, alarmhandler);
-	alarm(3);
+	alarmhandler(SIGALRM);
 	signal(SIGINT, intHandler);
 }
