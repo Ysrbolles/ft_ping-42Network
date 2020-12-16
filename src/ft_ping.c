@@ -61,7 +61,6 @@ int cerate_sock()
 	int rv;
 
 	params.pingloop = 1;
-	params.flag = 1;
 	memset(&hints, 0, sizeof hints);
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_RAW;
@@ -91,6 +90,8 @@ void ft_sleep(int sec)
 		gettimeofday(&current, NULL);
 }
 
+
+
 int main(int ac, char **av)
 {
 	struct timeval start;
@@ -111,7 +112,7 @@ int main(int ac, char **av)
 		inet_ntop(params.addr_info->ai_family, &((struct sockaddr_in *)(void *)params.addr_info->ai_addr)->sin_addr, params.addrstr, sizeof(params.addrstr));
 		printf("ING %s (%s) %zu(%zu) bytes of data.\n",
 			   av[1], params.addrstr,
-			   56, sizeof(t_ping_pkt) + 20);
+			   56, 58);
 		gettimeofday(&params.start_time, NULL);
 		start_signal();
 		while (params.pingloop)
