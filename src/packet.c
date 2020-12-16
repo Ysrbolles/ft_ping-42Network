@@ -43,10 +43,10 @@ int send_packet()
 	params.pkt.hdr.un.echo.id = getpid();
 	params.pkt.hdr.un.echo.sequence = params.msg_count++;
 	params.pkt.hdr.checksum = 0;
-	params.pkt.hdr.checksum = checksum((unsigned short *)&pkt, sizeof(pkt));
+	params.pkt.hdr.checksum = checksum((unsigned short *)&params.pkt, sizeof(params.pkt));
 	gettimeofday(&params.time_start, NULL);
 	params.msg_count == 1 ? gettimeofday(&params.tfs, NULL): 0;
-	if (sending = sendto(params.ClientSocket, &pkt, sizeof(pkt), 0, params.addr_info->ai_addr, params.addr_info->ai_addrlen) <= 0)
+	if (sending = sendto(params.ClientSocket, &params.pkt, sizeof(params.pkt), 0, params.addr_info->ai_addr, params.addr_info->ai_addrlen) <= 0)
 		params.flag = params.flag_v ? params.flag : 0;
 }
 int get_packet()
@@ -66,16 +66,12 @@ int get_packet()
 		gettimeofday(&params.time_end, NULL);
 		params.rtt = ((double)(params.time_end.tv_usec - params.time_start.tv_usec)) / 1000;
 	}
-	if(params.flag && (params.params.pkt.hdr.type == 69 && params.params.pkt.hdr.code == 0))
+	if((params.pkt.hdr.type == ICMP_ECHO && params.pkt.hdr.code == 0))
 	{
-		printf("%d bytes from %s: ismp_seq=%d ttl=%d time%.1Lf ms\n",
+		printf("%d bytes from %s: ismp_seq=%d ttl=%d time=%.1Lf ms\n",
 			PACKET_PING_SIZE, params.addrstr, params.msg_count,
 			params.ttl, params.rtt);
 		params.msg_countrecv++;
 	}
-	printf("------------> Ret = %d\n", ret);
-	if (ret < 0)
-		printf("------------> Makhdmatch 3awtani hahahahah\n");
-
 	return 0;
 }
