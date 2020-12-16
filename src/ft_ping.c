@@ -16,7 +16,7 @@ struct addrinfo *copy(struct addrinfo *value)
 {
 	struct addrinfo *on;
 
-	on = malloc(sizeof(struct addrinfo *));
+	// on = malloc(sizeof(struct addrinfo *));
 
 	on->ai_family = value->ai_family;
 	on->ai_socktype = value->ai_socktype;
