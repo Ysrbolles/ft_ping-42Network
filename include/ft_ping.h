@@ -56,7 +56,7 @@ typedef struct s_params
 	int packet_send;
 	int msg_count;
 	int msg_countrecv;
-	struct t_ping_pkt pkt;
+	t_ping_pkt pkt;
 	struct timeval time_start;
 	struct timeval time_end;
 	struct timeval tv_out;

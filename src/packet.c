@@ -66,16 +66,12 @@ int get_packet()
 		gettimeofday(&params.time_end, NULL);
 		params.rtt = ((double)(params.time_end.tv_usec - params.time_start.tv_usec)) / 1000;
 	}
-	if(params.flag && (params.pkt.hdr.type == 69 && params.pkt.hdr.code == 0))
+	if((params.pkt.hdr.type == ICMP_ECHO && params.pkt.hdr.code == 0))
 	{
-		printf("%d bytes from %s: ismp_seq=%d ttl=%d time%.1Lf ms\n",
+		printf("%d bytes from %s: ismp_seq=%d ttl=%d time=%.1Lf ms\n",
 			PACKET_PING_SIZE, params.addrstr, params.msg_count,
 			params.ttl, params.rtt);
 		params.msg_countrecv++;
 	}
-	printf("------------> Ret = %d\n", ret);
-	if (ret < 0)
-		printf("------------> Makhdmatch 3awtani hahahahah\n");
-
 	return 0;
 }
