@@ -47,7 +47,7 @@ int socket_while(struct addrinfo *rp)
 	int i = 0;
 	while (rp != NULL)
 	{
-		sock = socket(rparams.ai_family, rparams.ai_socktype, rparams.ai_protocol);
+		sock = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
 		if (sock == -1)
 			continue;
 		if (sock != -1)
@@ -55,7 +55,7 @@ int socket_while(struct addrinfo *rp)
 			params.addr_info = copy(rp);
 			return (sock);
 		}
-		rp = rparams.ai_next;
+		rp = rp->ai_next;
 		i++;
 	}
 	return (sock);
