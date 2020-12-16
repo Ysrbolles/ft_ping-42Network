@@ -12,7 +12,17 @@
 
 #include "ft_ping.h"
 
-
+void		init_ping(void)
+{
+	params.rtt= 0;
+	params.total = 0;
+	params.tv_out.tv_sec = RECV_TIMEOUT;
+	params.tv_out.tv_usec = 0;
+	params.ttl = 63;
+	params.msg_count = 0;
+	params.msg_countrecv = 0;
+	params.flag = 1;
+}
 unsigned short checksum(void *b, int len)
 {
 	unsigned short *buff = b;
@@ -65,10 +75,8 @@ int get_packet()
 	msg.msg_namelen = params.addr_info->ai_addrlen;
 	if(!(recvmsg(params.ClientSocket, &msg, MSG_DONTWAIT) <= 0 && params.msg_count  >1)){
 		gettimeofday(&params.time_end, NULL);
-		printf("%d", params.time_end.tv_sec);
-			params.rtt = ((double)(params.time_end.tv_usec -
+		params.rtt = ((double)(params.time_end.tv_usec -
 						params.time_start.tv_usec)) / 1000;
-			if (params.flag && (params.pkt.hdr.type == 69 && params.pkt.hdr.code == 0))
 	}
 	if(params.flag && (params.pkt.hdr.type == ICMP_ECHO && params.pkt.hdr.code == 0))
 	{
