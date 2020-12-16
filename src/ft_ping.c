@@ -12,6 +12,19 @@
 
 #include "ft_ping.h"
 
+
+void		init_ping(void)
+{
+	params.rtt= 0;
+	params.total = 0;
+	params.tv_out.tv_sec = RECV_TIMEOUT;
+	params.tv_out.tv_usec = 0;
+	params.ttl = 63;
+	params.msg_count = 0;
+	params.msg_countrecv = 0;
+	params.flag = 1;
+}
+
 struct addrinfo *copy(struct addrinfo *value)
 {
 	struct addrinfo *on;
@@ -105,7 +118,7 @@ int main(int ac, char **av)
 	}
 	else
 	{
-
+		init_ping();
 		params.Host = av[1];
 		if ((params.ClientSocket = cerate_sock()) == -1)
 			printf("Socket Failed\n");
