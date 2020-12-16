@@ -56,6 +56,8 @@ typedef struct s_params
 	struct timeval tfs;
 	struct timeval tfe;
 	int ttl;
+	int flag;
+	int flag_v;
 	long double rtt;
 	long double total;
 } t_params;

@@ -48,8 +48,8 @@ int send_packet()
 	pkt.hdr.checksum = checksum((unsigned short *)&pkt, sizeof(pkt));
 	gettimeofday(&params.time_start, NULL);
 	params.msg_count == 1 ? gettimeofday(&params.tfs, NULL): 0;
-	sending = sendto(params.ClientSocket, &pkt, sizeof(pkt), 0, params.addr_info->ai_addr, params.addr_info->ai_addrlen);
-	printf("-----------> msg Count = %d\n", params.msg_count);
+	if (sending = sendto(params.ClientSocket, &pkt, sizeof(pkt), 0, params.addr_info->ai_addr, params.addr_info->ai_addrlen) <= 0)
+		params.flag = params.flag_v ? params.flag : 0;
 }
 int get_packet()
 {
@@ -64,7 +64,17 @@ int get_packet()
 	msg.msg_iovlen = 1;
 	msg.msg_name = params.addr_info->ai_addr;
 	msg.msg_namelen = params.addr_info->ai_addrlen;
-	ret = recvmsg(params.ClientSocket, &msg, MSG_DONTWAIT);
+	if(!(ret = recvmsg(params.ClientSocket, &msg, MSG_DONTWAIT) < 0 && params.msg_count  >1)){
+		gettimeofday(&params.time_end, NULL);
+		params.rtt = ((double)(params.time_end.tv_usec - params.time_start.tv_usec)) / 1000;
+	}
+	if(params.flag && (params.pkt.hdr.type == 69 && params.pkt.hdr.code == 0))
+	{
+		printf("%d bytes from %s: ismp_seq=%d ttl=%d time%.1Lf ms\n",
+			PACKET_PING_SIZE, params.addrstr, params.msg_count,
+			params.ttl, params.rtt);
+		params.msg_countrecv++;
+	}
 	printf("------------> Ret = %d\n", ret);
 	if (ret < 0)
 		printf("------------> Makhdmatch 3awtani hahahahah\n");
