@@ -47,7 +47,17 @@ typedef struct s_params
 	struct timeval start_time;
 	char  addrstr[INET_ADDRSTRLEN];
 	char *Host;
-
+	int packet_send;
+	int msg_count;
+	int msg_countrecv;
+	struct timeval time_start;
+	struct timeval time_end;
+	struct timeval tv_out;
+	struct timeval tfs;
+	struct timeval tfe;
+	int ttl;
+	long double rtt;
+	long double total;
 } t_params;
 
 typedef struct s_ping_pkt
