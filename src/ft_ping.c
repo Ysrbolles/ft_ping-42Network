@@ -105,7 +105,6 @@ int main(int ac, char **av)
 	else
 	{
 
-		params.Host = malloc(sizeof(av[1]));
 		params.Host = av[1];
 		if ((params.ClientSocket = cerate_sock(av[1])) == -1)
 			printf("Socket Failed\n");
@@ -113,7 +112,6 @@ int main(int ac, char **av)
 		printf("PING %s (%s) %zu(%zu) bytes of data.\n",
 				av[1], params.addrstr,
 				56, sizeof(t_ping_pkt) + 20);
-		gettimeofday(&params.time_start, NULL);
 		start_signal();
 		setsockopt(params.ClientSocket, IPPROTO_IP, IP_TTL, &params.ttl, sizeof(params.ttl));
 		while (params.pingloop)

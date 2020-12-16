@@ -30,6 +30,7 @@
 #define HEADERLEN ICMP
 #define INTERVAL 200
 #define RECV_TIMEOUT 10000
+#define PING_SLEEP_RATE 10
 
 
 typedef struct s_flags
@@ -77,4 +78,5 @@ int	get_packet();
 int	send_packet();
 void	start_signal();
 void 	intHandler(int dummy);
+void	ft_sleep(int sec);
 #endif

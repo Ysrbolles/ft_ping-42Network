@@ -44,8 +44,9 @@ int send_packet()
 	params.pkt.hdr.un.echo.sequence = params.msg_count++;
 	params.pkt.hdr.checksum = 0;
 	params.pkt.hdr.checksum = checksum((unsigned short *)&params.pkt, sizeof(params.pkt));
-	gettimeofday(&params.time_start, NULL);
 	params.msg_count == 1 ? gettimeofday(&params.tfs, NULL): 0;
+	ft_sleep(2);
+	gettimeofday(&params.time_start, NULL);
 	if (sending = sendto(params.ClientSocket, &params.pkt, sizeof(params.pkt), 0, params.addr_info->ai_addr, params.addr_info->ai_addrlen) <= 0)
 		params.flag = params.flag_v ? params.flag : 0;
 }
