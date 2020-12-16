@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 16:38:07 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/16 17:45:10 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/16 17:47:11 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int cerate_sock()
 	hints.ai_socktype = SOCK_RAW;	  
 	hints.ai_protocol = IPPROTO_ICMP; 
 	hints.ai_flags = 0;
+	printf("P");
 	if ((rv = getaddrinfo(params.Host, NULL, &hints, &servinfo)) != 0)
 	{
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
@@ -108,7 +109,7 @@ int main(int ac, char **av)
 		if ((params.ClientSocket = cerate_sock()) == -1)
 			printf("Socket Failed\n");
 		inet_ntop(params.addr_info->ai_family, &((struct sockaddr_in *)(void *)params.addr_info->ai_addr)->sin_addr, params.addrstr, sizeof(params.addrstr));
-		printf("PING %s (%s) %zu(%zu) bytes of data.\n",
+		printf("ING %s (%s) %zu(%zu) bytes of data.\n",
 				av[1], params.addrstr,
 				56, 58);
 		start_signal();
