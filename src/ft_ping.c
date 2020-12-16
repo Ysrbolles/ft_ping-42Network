@@ -110,8 +110,6 @@ int main(int ac, char **av)
 		if ((params.ClientSocket = cerate_sock(av[1])) == -1)
 			printf("Socket Failed\n");
 		setsockopt(params.ClientSocket, SOL_IP, IP_TTL, &params.ttl, sizeof(params.ttl));
-		setsockopt(params.ClientSocket, SOL_SOCKET, SO_RCVTIMEO,
-			(const char *)&params.tv_out, sizeof(params.tv_out));
 		inet_ntop(params.addr_info->ai_family, &((struct sockaddr_in *)(void *)params.addr_info->ai_addr)->sin_addr, params.addrstr, sizeof(params.addrstr));
 		printf("PING %s (%s) %zu(%zu) bytes of data.\n",
 				av[1], params.addrstr,
