@@ -12,17 +12,6 @@
 
 #include "ft_ping.h"
 
-void		init_ping(void)
-{
-	params.rtt= 0;
-	params.total = 0;
-	params.tv_out.tv_sec = RECV_TIMEOUT;
-	params.tv_out.tv_usec = 0;
-	params.ttl = 63;
-	params.msg_count = 0;
-	params.msg_countrecv = 0;
-	params.flag = 1;
-}
 unsigned short checksum(void *b, int len)
 {
 	unsigned short *buff = b;
@@ -73,14 +62,13 @@ int get_packet()
 	msg.msg_iovlen = 1;
 	msg.msg_name = params.addr_info->ai_addr;
 	msg.msg_namelen = params.addr_info->ai_addrlen;
-	if(!(recvmsg(params.ClientSocket, &msg, MSG_DONTWAIT) <= 0 && params.msg_count  >1)){
+	if(!(ret = recvmsg(params.ClientSocket, &msg, MSG_DONTWAIT) < 0 && params.msg_count  >1)){
 		gettimeofday(&params.time_end, NULL);
-		params.rtt = ((double)(params.time_end.tv_usec -
-						params.time_start.tv_usec)) / 1000;
+		params.rtt = ((double)(params.time_end.tv_usec - params.time_start.tv_usec)) / 1000;
 	}
-	if(params.flag && (params.pkt.hdr.type == ICMP_ECHO && params.pkt.hdr.code == 0))
+	if((params.pkt.hdr.type == ICMP_ECHO && params.pkt.hdr.code == 0))
 	{
-		printf("%d bytes from %s: icmp_seq=%d ttl=%d time=%.1Lf ms\n",
+		printf("%d bytes from %s: ismp_seq=%d ttl=%d time=%.1Lf ms\n",
 			PACKET_PING_SIZE, params.addrstr, params.msg_count,
 			params.ttl, params.rtt);
 		params.msg_countrecv++;

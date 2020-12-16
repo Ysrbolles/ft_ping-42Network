@@ -13,23 +13,11 @@
 #include "ft_ping.h"
 
 
-void		init_ping(void)
-{
-	params.rtt= 0;
-	params.total = 0;
-	params.tv_out.tv_sec = RECV_TIMEOUT;
-	params.tv_out.tv_usec = 0;
-	params.ttl = 63;
-	params.msg_count = 0;
-	params.msg_countrecv = 0;
-	params.flag = 1;
-}
-
 struct addrinfo *copy(struct addrinfo *value)
 {
 	struct addrinfo *on;
 
-	// on = malloc(sizeof(struct addrinfo *));
+	on = malloc(sizeof(struct addrinfo *));
 
 	on->ai_family = value->ai_family;
 	on->ai_socktype = value->ai_socktype;
@@ -66,7 +54,7 @@ int socket_while(struct addrinfo *rp)
  **
  */
 
-int cerate_sock()
+int cerate_sock(char *av)
 {
 	int sockfd;
 	struct addrinfo hints, *servinfo, *p;
@@ -75,21 +63,21 @@ int cerate_sock()
 
 	params.pingloop = 1;
 	memset(&hints, 0, sizeof hints);
-	hints.ai_family = AF_INET;
-	hints.ai_socktype = SOCK_RAW;
-	hints.ai_protocol = IPPROTO_ICMP;
+	hints.ai_family = AF_INET;		  // Set IP family to IPv4
+	hints.ai_socktype = SOCK_RAW;	  // Set socket type to RAW
+	hints.ai_protocol = IPPROTO_ICMP; // set Protocol to ICMP protocol
 	hints.ai_flags = 0;
-	printf("P");
-	if ((rv = getaddrinfo(params.Host, NULL, &hints, &servinfo)) != 0)
+	printf("Host Name ------> %s\n", av);
+	if ((rv = getaddrinfo(av, NULL, &hints, &servinfo)) != 0)
 	{
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
 		exit(1);
 	}
+	sock = socket(servinfo->ai_family, servinfo->ai_socktype, servinfo->ai_protocol);
 	sockfd = socket_while(servinfo);
-	setsockopt(sockfd, IPPROTO_ICMP, IP_TTL, &params.ttl, sizeof(int));
 	return (sockfd);
 }
-void ft_sleep(int sec)
+void			ft_sleep(int sec)
 {
 	struct timeval current;
 	struct timeval next;
@@ -98,11 +86,9 @@ void ft_sleep(int sec)
 	next = current;
 	next.tv_sec += sec;
 	while ((current.tv_sec < next.tv_sec ||
-			current.tv_usec < next.tv_usec) &&
-		   (params.pingloop))
+				current.tv_usec < next.tv_usec) && (params.pingloop))
 		gettimeofday(&current, NULL);
 }
-
 
 
 int main(int ac, char **av)
@@ -118,20 +104,23 @@ int main(int ac, char **av)
 	}
 	else
 	{
-		init_ping();
+
+		params.Host = malloc(sizeof(av[1]));
 		params.Host = av[1];
-		if ((params.ClientSocket = cerate_sock()) == -1)
+		if ((params.ClientSocket = cerate_sock(av[1])) == -1)
 			printf("Socket Failed\n");
 		inet_ntop(params.addr_info->ai_family, &((struct sockaddr_in *)(void *)params.addr_info->ai_addr)->sin_addr, params.addrstr, sizeof(params.addrstr));
-		printf("ING %s (%s) %zu(%zu) bytes of data.\n",
-			   av[1], params.addrstr,
-			   56, 58);
-		gettimeofday(&params.start_time, NULL);
+		printf("PING %s (%s) %zu(%zu) bytes of data.\n",
+				av[1], params.addrstr,
+				56, sizeof(t_ping_pkt) + 20);
+		gettimeofday(&params.time_start, NULL);
 		start_signal();
+		setsockopt(params.ClientSocket, IPPROTO_IP, IP_TTL, &params.ttl, sizeof(params.ttl));
 		while (params.pingloop)
 		{
 			get_packet();
 			ft_sleep(1);
+
 		}
 	}
 
