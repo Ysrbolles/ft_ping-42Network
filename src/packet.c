@@ -36,6 +36,7 @@ int send_packet()
 	int i;
 
 	i = -1;
+	bzero(&params.pkt, sizeof(params.pkt));
 	while(++i < (int)sizeof(params.pkt.msg) - 1)
 		params.pkt.msg[i] = i + '0';
 	params.pkt.msg[i] = 0;
@@ -62,13 +63,12 @@ int get_packet()
 	msg.msg_iovlen = 1;
 	msg.msg_name = params.addr_info->ai_addr;
 	msg.msg_namelen = params.addr_info->ai_addrlen;
-	if(!(ret = recvmsg(params.ClientSocket, &msg, MSG_DONTWAIT) < 0 && params.msg_count  >1)){
+	if(!(ret = recvmsg(params.ClientSocket, &msg, MSG_DONTWAIT) <= 0 && params.msg_count  >1)){
 		gettimeofday(&params.time_end, NULL);
-			params.rtt = ((double)(params.time_end.tv_usec -
-						params.time_start.tv_usec)) / 1000;
+	params.rtt = (long double)(params.time_end.tv_usec - params.time_start.tv_usec) / 1000;
 			
 	}
-	if (params.flag && (params.pkt.hdr.type == ICMP_ECHO && params.pkt.hdr.code == 0))
+	if (params.flag)
 	{
 		printf("%d bytes from %s: ismp_seq=%d ttl=%d time=%.1Lf ms\n",
 			PACKET_PING_SIZE, params.addrstr, params.msg_count,
