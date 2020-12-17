@@ -33,22 +33,17 @@ unsigned short checksum(void *b, int len)
 int send_packet()
 {
 	int sending;
-	int i;
 
-	i = -1;
 	bzero(&params.pkt, sizeof(params.pkt));
-	while(++i < (int)sizeof(params.pkt.msg) - 1)
-		params.pkt.msg[i] = i + '0';
-	params.pkt.msg[i] = 0;
 	params.pkt.hdr.type = ICMP_ECHO;
 	params.pkt.hdr.un.echo.id = getpid();
 	params.pkt.hdr.un.echo.sequence = params.msg_count++;
 	params.pkt.hdr.checksum = 0;
 	params.pkt.hdr.checksum = checksum((unsigned short *)&params.pkt, sizeof(params.pkt));
-	gettimeofday(&params.start_time, NULL);
 	params.msg_count == 1 ? gettimeofday(&params.tfs, NULL) : 0;
 	if (sending = sendto(params.ClientSocket, &params.pkt, sizeof(params.pkt), 0, params.addr_info->ai_addr, params.addr_info->ai_addrlen) <= 0)
 		params.flag = params.flag_v ? params.flag : 0;
+	gettimeofday(&params.time_start, NULL);
 }
 int get_packet()
 {
@@ -63,14 +58,14 @@ int get_packet()
 	msg.msg_iovlen = 1;
 	msg.msg_name = params.addr_info->ai_addr;
 	msg.msg_namelen = params.addr_info->ai_addrlen;
-	if(!(ret = recvmsg(params.ClientSocket, &msg, MSG_DONTWAIT) <= 0 && params.msg_count > 1)){
+	if(!(ret = recvmsg(params.ClientSocket, &msg, MSG_DONTWAIT) < 0 && params.msg_count > 1)){
 		gettimeofday(&params.time_end, NULL);
-	params.rtt = (long double)(params.time_end.tv_usec - params.time_start.tv_usec) / 1000;
+	params.rtt = (params.time_end.tv_usec - params.time_start.tv_usec) / 1000;
 			
 	}
 	if (params.flag)
 	{
-		printf("%d bytes from %s: ismp_seq=%d ttl=%d time=%.1Lf ms\n",
+		printf("%d bytes from %s: ismp_seq=%d ttl=%d time=%.1f ms\n",
 			PACKET_PING_SIZE, params.addrstr, params.msg_count,
 			params.ttl, params.rtt);
 		params.msg_countrecv++;
