@@ -1,1 +1,1 @@
-clear && make && ./ft_ping www.facebook.com
+clear && make && ./ft_ping www.google.com
