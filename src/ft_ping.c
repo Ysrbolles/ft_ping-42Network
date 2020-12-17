@@ -6,13 +6,13 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 16:38:07 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/16 17:59:37 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/16 18:12:25 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
-void		init_params(void)
+void init_params(void)
 {
 
 	params.rtt = 0;
@@ -23,7 +23,6 @@ void		init_params(void)
 	params.msg_count = 0;
 	params.msg_countrecv = 0;
 	params.flag = 1;
-
 }
 
 struct addrinfo *copy(struct addrinfo *value)
@@ -74,9 +73,9 @@ int cerate_sock()
 
 	params.pingloop = 1;
 	memset(&hints, 0, sizeof hints);
-	hints.ai_family = AF_INET;		 
-	hints.ai_socktype = SOCK_RAW;	  
-	hints.ai_protocol = IPPROTO_ICMP; 
+	hints.ai_family = AF_INET;
+	hints.ai_socktype = SOCK_RAW;
+	hints.ai_protocol = IPPROTO_ICMP;
 	hints.ai_flags = 0;
 	printf("P");
 	if ((rv = getaddrinfo(params.Host, NULL, &hints, &servinfo)) != 0)
@@ -88,7 +87,7 @@ int cerate_sock()
 	setsockopt(sockfd, IPPROTO_IP, IP_TTL, &params.ttl, sizeof(params.ttl));
 	return (sockfd);
 }
-void			ft_sleep(int sec)
+void ft_sleep(int sec)
 {
 	struct timeval current;
 	struct timeval next;
@@ -97,10 +96,10 @@ void			ft_sleep(int sec)
 	next = current;
 	next.tv_sec += sec;
 	while ((current.tv_sec < next.tv_sec ||
-				current.tv_usec < next.tv_usec) && (params.pingloop))
+			current.tv_usec < next.tv_usec) &&
+		   (params.pingloop))
 		gettimeofday(&current, NULL);
 }
-
 
 int main(int ac, char **av)
 {
@@ -115,22 +114,21 @@ int main(int ac, char **av)
 	}
 	else
 	{
-		
+
 		init_params();
 		params.Host = av[1];
 		if ((params.ClientSocket = cerate_sock()) == -1)
 			printf("Socket Failed\n");
 		inet_ntop(params.addr_info->ai_family, &((struct sockaddr_in *)(void *)params.addr_info->ai_addr)->sin_addr, params.addrstr, sizeof(params.addrstr));
 		printf("ING %s (%s) %zu(%zu) bytes of data.\n",
-				av[1], params.addrstr,
-				56, 58);
+			   av[1], params.addrstr,
+			   56, 58);
 		start_signal();
-		
+
 		while (params.pingloop)
 		{
 			get_packet();
 			ft_sleep(1);
-
 		}
 	}
 
