@@ -15,14 +15,15 @@
 void init_params(void)
 {
 
-	params.rtt = 0;
-	params.total = 0;
-	params.tv_out.tv_sec = RECV_TIMEOUT;
-	params.tv_out.tv_usec = 0;
-	params.ttl = 63;
-	params.msg_count = 0;
-	params.msg_countrecv = 0;
-	params.flag = 1;
+	g_params.rtt = 0;
+	printf("-------> rtt after init %f\n", g_params.rtt);
+	g_params.total = 0;
+	g_params.tv_out.tv_sec = RECV_TIMEOUT;
+	g_params.tv_out.tv_usec = 0;
+	g_params.ttl = 63;
+	g_params.msg_count = 0;
+	g_params.msg_countrecv = 0;
+	g_params.flag = 1;
 }
 
 struct addrinfo *copy(struct addrinfo *value)
@@ -53,7 +54,7 @@ int socket_while(struct addrinfo *rp)
 			continue;
 		if (sock != -1)
 		{
-			params.addr_info = copy(rp);
+			g_params.addr_info = copy(rp);
 			return (sock);
 		}
 		rp = rp->ai_next;
@@ -62,30 +63,28 @@ int socket_while(struct addrinfo *rp)
 	return (sock);
 }
 
-/*
- **
- */
-
-int cerate_sock()
+int create_sock()
 {
 	int sockfd;
 	struct addrinfo hints, *servinfo, *p;
 	int sock;
 	int rv;
 
-	params.pingloop = 1;
+	g_params.pingloop = 1;
 	memset(&hints, 0, sizeof hints);
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_RAW;
 	hints.ai_protocol = IPPROTO_ICMP;
 	hints.ai_flags = 0;
-	if ((rv = getaddrinfo(params.Host, NULL, &hints, &servinfo)) != 0)
+	if ((rv = getaddrinfo(g_params.Host, NULL, &hints, &servinfo)) != 0)
 	{
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
 		exit(1);
 	}
 	sockfd = socket_while(servinfo);
-	setsockopt(sockfd, IPPROTO_IP, IP_TTL, &params.ttl, sizeof(params.ttl));
+	setsockopt(sockfd, IPPROTO_IP, IP_TTL, &g_params.ttl, sizeof(g_params.ttl));
+	setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO,
+			(const char *)&g_params.tv_out, sizeof(g_params.tv_out));
 	return (sockfd);
 }
 void ft_sleep(int sec)
@@ -98,40 +97,6 @@ void ft_sleep(int sec)
 	next.tv_sec += sec;
 	while ((current.tv_sec < next.tv_sec ||
 			current.tv_usec < next.tv_usec) &&
-		   (params.pingloop))
+		   (g_params.pingloop))
 		gettimeofday(&current, NULL);
-}
-
-int main(int ac, char **av)
-{
-	struct timeval start;
-	struct end;
-	if (getuid() != 0)
-		printf("ft_ping: Operation not permitted\n");
-	if (ac != 2)
-	{
-		printf("Usage ERROR \n");
-		exit(1);
-	}
-	else
-	{
-
-		init_params();
-		params.Host = av[1];
-		if ((params.ClientSocket = cerate_sock()) == -1)
-			printf("Socket Failed\n");
-		inet_ntop(params.addr_info->ai_family, &((struct sockaddr_in *)(void *)params.addr_info->ai_addr)->sin_addr, params.addrstr, sizeof(params.addrstr));
-		printf("PING %s (%s) %zu(%zu) bytes of data.\n",
-			   av[1], params.addrstr,
-			   56, 58);
-		start_signal();
-
-		while (params.pingloop)
-		{
-			get_packet();
-			ft_sleep(1);
-		}
-	}
-
-	return (0);
 }

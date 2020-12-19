@@ -72,11 +72,14 @@ typedef struct s_params
 } t_params;
 
 
-extern t_params params;
+extern t_params g_params;
+
 unsigned short checksum(void *b, int len);
-int	get_packet();
-int	send_packet();
-void	start_signal();
+int	get_packet(void);
+int	send_packet(void);
+void	start_signal(void);
 void 	intHandler(int dummy);
 void	ft_sleep(int sec);
+int	create_sock(void);
+void	init_params(void);
 #endif
