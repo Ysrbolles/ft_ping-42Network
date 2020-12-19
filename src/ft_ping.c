@@ -43,10 +43,8 @@ struct addrinfo *copy(struct addrinfo *value)
 
 int socket_while(struct addrinfo *rp)
 {
-	int sock = 0;
-	int i;
+	int sock;
 
-	i = 0;
 	while (rp != NULL)
 	{
 		sock = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
@@ -58,12 +56,16 @@ int socket_while(struct addrinfo *rp)
 			return (sock);
 		}
 		rp = rp->ai_next;
-		i++;
 	}
 	return (sock);
 }
 
+<<<<<<< HEAD
 int create_sock()
+=======
+
+int cerate_sock()
+>>>>>>> 2a1f0c2ad3bd9b5c23fbe36ed2a1befa5738b2cd
 {
 	int sockfd;
 	struct addrinfo hints, *servinfo, *p;
@@ -97,6 +99,10 @@ void ft_sleep(int sec)
 	next.tv_sec += sec;
 	while ((current.tv_sec < next.tv_sec ||
 			current.tv_usec < next.tv_usec) &&
+<<<<<<< HEAD
 		   (g_params.pingloop))
+=======
+		   params.pingloop)
+>>>>>>> 2a1f0c2ad3bd9b5c23fbe36ed2a1befa5738b2cd
 		gettimeofday(&current, NULL);
 }
