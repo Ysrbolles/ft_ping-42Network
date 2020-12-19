@@ -41,7 +41,7 @@ int send_packet()
 	params.pkt.hdr.checksum = 0;
 	params.pkt.hdr.checksum = checksum((unsigned short *)&params.pkt, sizeof(params.pkt));
 	params.msg_count == 1 ? gettimeofday(&params.tfs, NULL) : 0;
-	if (sending = sendto(params.ClientSocket, &params.pkt, sizeof(params.pkt), 0, params.addr_info->ai_addr, params.addr_info->ai_addrlen) <= 0)
+	if (sending = sendto(params.ClientSocket, &params.pkt, sizeof(params.pkt), 0, params.addr_info->ai_addr, params.addr_info->ai_addrlen) < 0)
 		params.flag = params.flag_v ? params.flag : 0;
 	gettimeofday(&params.time_start, NULL);
 }
@@ -63,7 +63,7 @@ int get_packet()
 	params.rtt = (params.time_end.tv_usec - params.time_start.tv_usec) / 1000;
 			
 	}
-	if (params.flag)
+		if (params.flag)
 	{
 		printf("%d bytes from %s: ismp_seq=%d ttl=%d time=%.1f ms\n",
 			PACKET_PING_SIZE, params.addrstr, params.msg_count,
