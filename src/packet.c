@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 20:28:18 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/20 19:25:55 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/20 19:28:52 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int get_packet()
 		gettimeofday(&g_params.time_end, NULL);
 		g_params.rtt = calc(g_params.time_start, g_params.time_end);
 	}
-	else if (g_params.flag_v && )
+	else if (g_params.flag && g_params.flag_v)
 	{
 		printf("%d bytes from %s: icmp_type:%d icmp_seq=%d ttl=%d time=%.1Lf ms\n",
 			   PACKET_PING_SIZE, g_params.addrstr, g_params.pkt.hdr.type ,g_params.msg_count,
