@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 19:04:29 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/11 18:26:43 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/20 10:20:57 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@
 
 
 #define PACKET_PING_SIZE 64
-#define HEADERLEN ICMP
-#define INTERVAL 200
 #define RECV_TIMEOUT 10000
-#define PING_SLEEP_RATE 10
 
 
 typedef struct s_flags
