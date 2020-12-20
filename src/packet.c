@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 20:28:18 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/20 08:13:29 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/20 08:41:28 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ long double calc(struct timeval start, struct timeval end)
 
 	printf("-----------> start %d \n", start.tv_usec);
 	long double startII = end.tv_sec - start.tv_usec;
-	long double endII = end.tv_usec - end.tv_usec;
+	long double endII = end.tv_usec - start.tv_usec;
 
 	res = (long double)((startII * 1000. ) + (startII / 1000.));
 	printf("------> res %Lf\n", res);
@@ -73,11 +73,7 @@ int get_packet()
 		printf("----- end %ld | %ld \n", g_params.time_end.tv_sec, g_params.time_end.tv_usec); 
 		g_params.rtt = calc(g_params.time_start, g_params.time_end);
 	}
-<<<<<<< HEAD
-	if (params.flag && (params.pkt.hdr.type == 69))
-=======
 	if (g_params.flag)
->>>>>>> ca67a21a69cb20062bff27cd8bb616206a2f99c0
 	{
 		printf("%d bytes from %s: ismp_seq=%d ttl=%d time=%.1Lf ms\n",
 				PACKET_PING_SIZE, g_params.addrstr, g_params.msg_count,
