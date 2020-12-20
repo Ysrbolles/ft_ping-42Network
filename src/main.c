@@ -32,7 +32,7 @@ int main(int ac, char **av)
 		while (g_params.pingloop)
 		{
 			get_packet();
-			ft_sleep(1);
+			ft_sleep(2);
 		}
 	}
 

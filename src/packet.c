@@ -52,7 +52,7 @@ long double calc(struct timeval start, struct timeval end)
 	printf("-----------> start %d \n", start.tv_usec);
 	long double startII = end.tv_sec - start.tv_sec;
 	long double endII = end.tv_usec - start.tv_usec;
-	res = (long double)((startII * 1000.) + (endII / 1000.) );
+	res = (long double)((startII * 1000.)+ (endII / 1000.) );
 	printf("------> res %Lf\n", res);
 	return (res);
 }
