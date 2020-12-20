@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 20:28:18 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/20 12:59:17 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/20 13:39:03 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,32 +65,21 @@ int get_packet()
 	struct msghdr msg;
 	struct iovec iov;
 	int ret;
-	char buf[CMSG_SPACE(sizeof(received_ttl))];
+	char				buffer[4096];
 
+
+	iov.iov_base = &buffer;
+	iov.iov_len = sizeof(buffer);
+	msg.msg_name = g_params.addr_info->ai_addr;
+	msg.msg_namelen = g_params.addr_info->ai_addrlen;;
 	msg.msg_iov = &iov;
 	msg.msg_iovlen = 1;
-	msg.msg_name = g_params.addr_info->ai_addr;
-	msg.msg_namelen = g_params.addr_info->ai_addrlen;
-	msg.msg_control = buf;			  // Assign buffer space for control header + header data/value
-	msg.msg_controllen = sizeof(buf); //just initializing it
+	msg.msg_control = 0;
+	msg.msg_controllen = 0;
 	ret = recvmsg(g_params.ClientSocket, &msg, MSG_DONTWAIT);
 	if (!(ret <= 0))
 	{
-		struct cmsghdr *cmsg;
-
-		cmsg = CMSG_FIRSTHDR(&msg);
-		while (cmsg != NULL)
-		{
-			if ((cmsg->cmsg_level == IPPROTO_ICMP) && (cmsg->cmsg_type == IP_TTL) &&
-				(cmsg->cmsg_len))
-			{
-				g_params.ttlptr = (int *)CMSG_DATA(cmsg);
-				g_params.recv_ttl = *g_params.ttlptr;
-				printf("received_ttl = %i and %d \n", g_params.ttlptr, g_params.recv_tt);
-				break;
-			}
-			cmsg = CMSG_NXTHDR(&msg, cmsg)
-		}
+		
 		gettimeofday(&g_params.time_end, NULL);
 		g_params.rtt = calc(g_params.time_start, g_params.time_end);
 	}

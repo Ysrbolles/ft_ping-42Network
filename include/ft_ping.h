@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 19:04:29 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/20 12:52:21 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/20 13:24:03 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ typedef struct s_params
 	struct timeval tfs;
 	struct timeval tfe;
 	int ttl;
-	int recv_ttl;
-	int *ttlptr;
 	int flag;
 	int flag_v;
 	long double rtt;
