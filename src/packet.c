@@ -76,12 +76,20 @@ int get_packet()
 		gettimeofday(&g_params.time_end, NULL);
 		g_params.rtt = calc(g_params.time_start, g_params.time_end);
 	}
-	if (!g_params.flag && (g_params.pkt.hdr.type == 69 && g_params.pkt.hdr.code == 0))
+	if (g_params.flag )
 	{
-		printf("%d bytes from %s: ismp_seq=%d ttl=%d time=%.1Lf ms\n",
-			   PACKET_PING_SIZE, g_params.addrstr, g_params.msg_count,
-			   g_params.ttl, g_params.rtt);
-		g_params.msg_countrecv++;
+		if((g_params.pkt.hdr.type == 69 && g_params.pkt.hdr.code == 0))
+		{
+			printf("%d bytes from %s: ismp_seq=%d ttl=%d time=%.1Lf ms\n",
+					PACKET_PING_SIZE, g_params.addrstr, g_params.msg_count,
+					g_params.ttl, g_params.rtt);
+			g_params.msg_countrecv++;
+		}
+		else 
+		{
+			printf(" bo3o\n");
+		}
+
 	}
 	if (g_params.flag == 0)
 	{
