@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 16:38:07 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/16 18:12:25 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/19 13:47:09 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,6 @@ int socket_while(struct addrinfo *rp)
 	return (sock);
 }
 
-/*
- **
- */
-
 int cerate_sock()
 {
 	int sockfd;
@@ -74,7 +70,7 @@ int cerate_sock()
 	int rv;
 
 	params.pingloop = 1;
-	memset(&hints, 0, sizeof hints);
+	ft_memset(&hints, 0, sizeof hints);
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_RAW;
 	hints.ai_protocol = IPPROTO_ICMP;

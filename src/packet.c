@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 20:28:18 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/17 22:15:57 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/17 22:52:54 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int get_packet()
 	params.rtt = (params.time_end.tv_usec - params.time_start.tv_usec) / 1000;
 			
 	}
-	if (params.flag)
+	if (params.flag && (params.pkt.hdr.type == 69))
 	{
 		printf("%d bytes from %s: ismp_seq=%d ttl=%d time=%.1f ms\n",
 			PACKET_PING_SIZE, params.addrstr, params.msg_count,
