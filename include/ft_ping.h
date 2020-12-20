@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 19:04:29 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/20 10:20:57 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/20 11:34:03 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_ping_pkt
 {
 	struct icmphdr hdr;
 	char msg[PACKET_PING_SIZE - sizeof(struct icmphdr)];
+	
 } t_ping_pkt;
 
 typedef struct s_params

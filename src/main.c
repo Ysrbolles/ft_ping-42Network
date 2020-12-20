@@ -19,8 +19,7 @@ int main(int ac, char **av)
 		exit(1);
 	}
 	else
-	{
-
+	{	
 		g_params.Host = av[1];
 		if ((g_params.ClientSocket = create_sock()) == -1)
 			printf("Socket Failed\n");

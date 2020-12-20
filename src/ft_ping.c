@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 16:38:07 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/20 08:10:28 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/20 11:36:07 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ int create_sock()
 		exit(1);
 	}
 	sockfd = socket_while(servinfo);
-	setsockopt(sockfd, IPPROTO_IP, IP_TTL, &g_params.ttl, sizeof(g_params.ttl));
+	if(setsockopt(sockfd, IPPROTO_IP, IP_TTL, &g_params.ttl, sizeof(g_params.ttl) != 0))
+		printf("\n-- khnouna ---\n");
 	setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO,
 			(const char *)&g_params.tv_out, sizeof(g_params.tv_out));
 	return (sockfd);
