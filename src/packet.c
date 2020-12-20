@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 20:28:18 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/20 12:58:30 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/20 12:59:17 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int get_packet()
 				(cmsg->cmsg_len))
 			{
 				g_params.ttlptr = (int *)CMSG_DATA(cmsg);
-				g_params.recv_ttl = *ttlptr;
+				g_params.recv_ttl = *g_params.ttlptr;
 				printf("received_ttl = %i and %d \n", g_params.ttlptr, g_params.recv_tt);
 				break;
 			}
