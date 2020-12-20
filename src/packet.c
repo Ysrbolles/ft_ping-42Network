@@ -53,10 +53,12 @@ long double calc(struct timeval start, struct timeval end)
 {
 	long double res;
 
-	long double startII = end.tv_sec - start.tv_sec;
-	long double endII = end.tv_usec - start.tv_usec;
-	res = (long double)((startII * 1000.) + (endII / 1000.));
-	printf("------> res %Lf\n", res);
+	long int startII = end.tv_sec - start.tv_sec;
+	printf("--------> start sec: %ld | --------> start usec: %ld\n", start.tv_sec, start.tv_usec);
+	printf("-------->end sec: %ld | -------> end usec: %ld\n", end.tv_sec, end.tv_usec);
+	long int endII = end.tv_usec - start.tv_usec;
+	res = ((startII * 1000) + (endII / 1000));
+	printf("------> res %ld\n", endII);
 	return (res);
 }
 
@@ -77,7 +79,7 @@ int get_packet()
 	msg.msg_control = 0;
 	msg.msg_controllen = 0;
 	ret = recvmsg(g_params.ClientSocket, &msg, MSG_DONTWAIT);
-	if (!(ret <= 0))
+	if (!(ret <= 0 && g_params.msg_count > 1))
 	{
 		
 		gettimeofday(&g_params.time_end, NULL);
@@ -85,17 +87,17 @@ int get_packet()
 	}
 	if (g_params.flag)
 	{
-		if ((g_params.pkt.hdr.type == 69 && g_params.pkt.hdr.code == 0))
+		if (!g_params.flag_v)
 		{
-			printf("%d bytes from %s: ismp_seq=%d ttl=%d time=%.1Lf ms\n",
+			printf("%d bytes from %s: icmp_seq=%d ttl=%d time=%.1Lf ms\n",
 				   PACKET_PING_SIZE, g_params.addrstr, g_params.msg_count,
 				   g_params.ttl, g_params.rtt);
 			g_params.msg_countrecv++;
 		}
-		else
+		else if(g_params.flag_v)
 		{
-			printf("%d bytes from %s: type=%d ismp_seq=%d ttl=%d time=%.1Lf ms\n",
-				   PACKET_PING_SIZE, g_params.addrstr, ,g_params.msg_count,
+			printf("%d bytes from %s: type=%d icmp_seq=%d ttl=%d time=%.1Lf ms\n",
+				   PACKET_PING_SIZE, g_params.addrstr, g_params.pkt.hdr.type,g_params.msg_count,
 				   g_params.ttl, g_params.rtt);
 		}
 	}
