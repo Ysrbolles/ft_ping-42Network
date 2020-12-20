@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 20:28:18 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/20 08:41:28 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/20 09:05:03 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ long double calc(struct timeval start, struct timeval end)
 	long double startII = end.tv_sec - start.tv_usec;
 	long double endII = end.tv_usec - start.tv_usec;
 
-	res = (long double)((startII * 1000. ) + (startII / 1000.));
+	res = (long double)((startII * 1000. ));
 	printf("------> res %Lf\n", res);
 	return (res);
 }
