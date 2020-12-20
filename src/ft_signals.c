@@ -26,6 +26,5 @@ void start_signal()
 {
 	signal(SIGALRM, alarmhandler);
 	alarmhandler(SIGALRM);
-	ft_sleep(1);
 	signal(SIGINT, intHandler);
 }

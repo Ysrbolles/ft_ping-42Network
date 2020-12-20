@@ -45,9 +45,7 @@ struct addrinfo *copy(struct addrinfo *value)
 int socket_while(struct addrinfo *rp)
 {
 	int sock = 0;
-	int i;
 
-	i = 0;
 	while (rp != NULL)
 	{
 		sock = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
@@ -59,7 +57,6 @@ int socket_while(struct addrinfo *rp)
 			return (sock);
 		}
 		rp = rp->ai_next;
-		i++;
 	}
 	return (sock);
 }
@@ -83,6 +80,7 @@ int create_sock()
 		exit(1);
 	}
 	sockfd = socket_while(servinfo);
+	printf("ach kandir hna %d\n", sockfd);
 	if(setsockopt(sockfd, IPPROTO_IP, IP_TTL, &g_params.ttl, sizeof(g_params.ttl) != 0))
 		printf("\n-- khnouna ---\n");
 	setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO,
