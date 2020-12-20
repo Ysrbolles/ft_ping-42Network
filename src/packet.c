@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 20:28:18 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/20 12:57:23 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/20 12:58:30 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ int get_packet()
 			if ((cmsg->cmsg_level == IPPROTO_ICMP) && (cmsg->cmsg_type == IP_TTL) &&
 				(cmsg->cmsg_len))
 			{
-				ttlptr = (int *)CMSG_DATA(cmsg);
-				received_ttl = *ttlptr;
-				printf("received_ttl = %i and %d \n", ttlptr, received_ttl);
+				g_params.ttlptr = (int *)CMSG_DATA(cmsg);
+				g_params.recv_ttl = *ttlptr;
+				printf("received_ttl = %i and %d \n", g_params.ttlptr, g_params.recv_tt);
 				break;
 			}
 			cmsg = CMSG_NXTHDR(&msg, cmsg)
