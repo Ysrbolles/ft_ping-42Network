@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 16:38:07 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/20 11:59:50 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/20 12:52:50 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void init_params(void)
 	g_params.tv_out.tv_sec = RECV_TIMEOUT;
 	g_params.tv_out.tv_usec = 0;
 	g_params.ttl = 63;
+	g_params.ttlptr = NULL;
+	g_params.recv_ttl = 0;
 	g_params.msg_count = 0;
 	g_params.msg_countrecv = 0;
 	g_params.flag = 1;

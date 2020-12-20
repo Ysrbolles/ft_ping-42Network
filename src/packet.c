@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 20:28:18 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/20 12:03:08 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/20 12:56:09 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,35 +65,50 @@ int get_packet()
 	struct msghdr msg;
 	struct iovec iov;
 	int ret;
+	char buf[CMSG_SPACE(sizeof(received_ttl))];
 
 	msg.msg_iov = &iov;
 	msg.msg_iovlen = 1;
 	msg.msg_name = g_params.addr_info->ai_addr;
 	msg.msg_namelen = g_params.addr_info->ai_addrlen;
+	msg.msg_control = buf;			  // Assign buffer space for control header + header data/value
+	msg.msg_controllen = sizeof(buf); //just initializing it
 	ret = recvmsg(g_params.ClientSocket, &msg, MSG_DONTWAIT);
 	if (!(ret <= 0))
 	{
+		struct cmsghdr *cmsg;
+
+		cmsg = CMSG_FIRSTHDR(&msg) while (cmsg != NULL)
+		{
+			if ((cmsg->cmsg_level == IPPROTO_ICMP) && (cmsg->cmsg_type == IP_TTL) &&
+				(cmsg->cmsg_len))
+			{
+				ttlptr = (int *)CMSG_DATA(cmsg);
+				received_ttl = *ttlptr;
+				printf("received_ttl = %i and %d \n", ttlptr, received_ttl);
+				break;
+			}
+			cmsg = CMSG_NXTHDR(&msg, cmsg)
+		}
 		gettimeofday(&g_params.time_end, NULL);
 		g_params.rtt = calc(g_params.time_start, g_params.time_end);
 	}
-	if (g_params.flag )
+	if (g_params.flag)
 	{
-		if((g_params.pkt.hdr.type == 69 && g_params.pkt.hdr.code == 0))
+		if ((g_params.pkt.hdr.type == 69 && g_params.pkt.hdr.code == 0))
 		{
 			printf("%d bytes from %s: ismp_seq=%d ttl=%d time=%.1Lf ms\n",
-					PACKET_PING_SIZE, g_params.addrstr, g_params.msg_count,
-					g_params.ttl, g_params.rtt);
+				   PACKET_PING_SIZE, g_params.addrstr, g_params.msg_count,
+				   g_params.ttl, g_params.rtt);
 			g_params.msg_countrecv++;
 		}
-		else 
+		else
 		{
 			printf(" bo3o\n");
 		}
-
 	}
 	if (g_params.flag == 0)
 	{
-		
 	}
 	return 0;
 }
