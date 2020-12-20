@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 20:28:18 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/20 12:56:09 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/20 12:57:23 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ int get_packet()
 	{
 		struct cmsghdr *cmsg;
 
-		cmsg = CMSG_FIRSTHDR(&msg) while (cmsg != NULL)
+		cmsg = CMSG_FIRSTHDR(&msg);
+		while (cmsg != NULL)
 		{
 			if ((cmsg->cmsg_level == IPPROTO_ICMP) && (cmsg->cmsg_type == IP_TTL) &&
 				(cmsg->cmsg_len))
