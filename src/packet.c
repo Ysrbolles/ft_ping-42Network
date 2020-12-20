@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 20:28:18 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/20 11:53:30 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/20 12:03:08 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ long double calc(struct timeval start, struct timeval end)
 	printf("------> res %Lf\n", res);
 	return (res);
 }
+
 int get_packet()
 {
 	struct msghdr msg;
@@ -84,7 +85,7 @@ int get_packet()
 	}
 	if (g_params.flag == 0)
 	{
-		printf("%d bytes from %s: type=%d\n", PACKET_PING_SIZE, g_params.addrstr, g_params.pkt.hdr.type);
+		
 	}
 	return 0;
 }

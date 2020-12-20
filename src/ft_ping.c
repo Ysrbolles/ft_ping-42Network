@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 16:38:07 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/20 11:36:07 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/20 11:59:50 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void init_params(void)
 
 	g_params.rtt = 0;
 	g_params.total = 0;
+	g_params.pingloop = 1;
 	g_params.tv_out.tv_sec = RECV_TIMEOUT;
 	g_params.tv_out.tv_usec = 0;
 	g_params.ttl = 63;
@@ -65,12 +66,12 @@ int socket_while(struct addrinfo *rp)
 int create_sock()
 {
 	int sockfd;
-	struct addrinfo hints, *servinfo, *p;
+	struct addrinfo hints;
+	struct addrinfo *servinfo;
 	int sock;
 	int rv;
 
-	g_params.pingloop = 1;
-	memset(&hints, 0, sizeof hints);
+	ft_memset(&hints, 0, sizeof hints);
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_RAW;
 	hints.ai_protocol = IPPROTO_ICMP;
