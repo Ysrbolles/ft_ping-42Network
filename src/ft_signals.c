@@ -18,7 +18,7 @@ void intHandler(int signum)
 void alarmhandler(int signum)
 {
 	send_packet();
-	alarm(1);
+	ft_sleep(1);
 }
 
 void start_signal()
