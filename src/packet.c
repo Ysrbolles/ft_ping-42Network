@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 20:28:18 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/20 13:39:03 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/20 16:13:35 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,9 @@ int get_packet()
 		}
 		else
 		{
-			printf(" bo3o\n");
+			printf("%d bytes from %s: type=%d ismp_seq=%d ttl=%d time=%.1Lf ms\n",
+				   PACKET_PING_SIZE, g_params.addrstr, ,g_params.msg_count,
+				   g_params.ttl, g_params.rtt);
 		}
 	}
 	if (g_params.flag == 0)
