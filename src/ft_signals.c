@@ -1,30 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_signals.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/22 21:29:00 by ybolles           #+#    #+#             */
+/*   Updated: 2020/12/22 21:29:00 by ybolles          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 
 #include "ft_ping.h"
 
-
-void intHandler(int signum)
+int sighandler(int sig)
 {
-	int loss;
-
-	
-	g_params.pingloop = 0;
-	loss = 0;
-	printf("\n--- %s ping statistics ---\n", g_params.Host);
-	loss = (g_params.msg_count - g_params.msg_countrecv) / g_params.msg_count * 100;
-	printf("%d packets transmitted, %d received, %d%% packet loss, time %dms\n", g_params.msg_count, g_params.msg_countrecv, loss, g_params.tfs.tv_usec/ 1000);
-}
-
-void alarmhandler(int signum)
-{
-	send_packet();
-	gettimeofday(&g_params.time_start, NULL);
-	alarm(1);
-}
-
-void start_signal()
-{
-	signal(SIGALRM, alarmhandler);
-	alarmhandler(SIGALRM);
-	signal(SIGINT, intHandler);
+	if (sig == SIGINT)
+		g_params.pingloop = 0;
+	else if (sig == SIGALRM)
+		g_params.signalalarm = 1;
+	return 0;
 }

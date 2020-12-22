@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 19:04:29 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/22 16:23:14 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/22 22:23:23 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@
 
 typedef struct s_pkt
 {
+
+	char msg[PACKET_PING_SIZE];
 	struct icmphdr hdr;
 	struct iphdr ip;
-	char msg[PACKET_PING_SIZE];
 
 } t_pkt;
 
@@ -55,7 +56,7 @@ typedef struct s_params
 	int packet_send;
 	int msg_count;
 	int msg_countrecv;
-	t_ping_pkt pkt;
+	t_pkt pkt;
 	t_res res;
 	struct timeval time_start;
 	struct timeval time_end;
@@ -74,11 +75,13 @@ typedef struct s_params
 extern t_params g_params;
 
 unsigned short checksum(void *b, int len);
-int get_packet(void);
-int send_packet(void);
-void start_signal(void);
-void intHandler(int dummy);
-void ft_sleep(int sec);
-int create_sock(void);
 void init_params(void);
+void call_ping(void);
+void create_sock(void);
+void get_packet(void);
+void send_packet(void);
+void parse_av(int ac, char **av);
+int sighandler(int sig);
+int get_addrinfo(char *host);
+
 #endif
