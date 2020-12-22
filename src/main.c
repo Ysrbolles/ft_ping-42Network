@@ -4,6 +4,7 @@
 
 t_params g_params;
 
+
 void parse_av(int ac, char **av)
 {
 	int	i;
@@ -23,7 +24,11 @@ void parse_av(int ac, char **av)
 		}
 		else 
 		{
-			get_addrinfo(av[i]);
+			if(get_addrinfo(av[i]))
+			{
+				printf("Unknown name or services\n");
+				exit(1);
+			}
 			g_params.Host = av[i];
 			inet_ntop(AF_INET, &((struct sockaddr_in *)(void *)g_params.addr_info->ai_addr)->sin_addr,
 					g_params.addrstr, sizeof(g_params.addrstr));
