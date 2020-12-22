@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 20:28:18 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/22 22:22:51 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/22 22:26:32 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void send_packet(void)
 	g_params.pkt.hdr.un.echo.sequence = g_params.msg_count++;
 	g_params.pkt.hdr.checksum = checksum((unsigned short *)&g_params.pkt.hdr, sizeof(struct icmphdr));
 	if (sendto(g_params.clientsocket, &g_params.pkt, PACKET_PING_SIZE, 0,
-			   &g_params.addrinfo, sizeof(struct sockaddr_in)) < 0)
+			   g_params.addrinfo, sizeof(struct sockaddr_in)) < 0)
 	{
 		printf("sendto socket Error\n");
 		exit(0);
