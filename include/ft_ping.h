@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 19:04:29 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/20 13:24:03 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/22 16:23:14 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,38 @@
 #include <signal.h>
 #include <sys/time.h>
 
-
-#define PACKET_PING_SIZE 64
-
+#define PACKET_PING_SIZE 84
+#define USEC_TIMEOUT 50000
 
 typedef struct s_pkt
 {
 	struct icmphdr hdr;
-	struct iphdr hdr;
+	struct iphdr ip;
 	char msg[PACKET_PING_SIZE];
-	
+
 } t_pkt;
+
+typedef struct s_res
+{
+	struct iovec iov[1];
+	struct msghdr msg;
+} t_res;
 
 typedef struct s_params
 {
 	int pingloop;
+	int signalalarm;
 	struct addrinfo *addr_info;
+	struct sockaddr_in *addrinfo;
 	int clientsocket;
 	struct timeval start_time;
-	char  addrstr[INET_ADDRSTRLEN];
-	char *Host;
+	char addrstr[INET_ADDRSTRLEN];
+	char *host;
 	int packet_send;
 	int msg_count;
 	int msg_countrecv;
 	t_ping_pkt pkt;
+	t_res res;
 	struct timeval time_start;
 	struct timeval time_end;
 	struct timeval tv_out;
@@ -58,19 +66,19 @@ typedef struct s_params
 	int flag;
 	int flag_v;
 	int interval;
+	int daddr;
 	long double rtt;
 	long double total;
 } t_params;
 
-
 extern t_params g_params;
 
 unsigned short checksum(void *b, int len);
-int	get_packet(void);
-int	send_packet(void);
-void	start_signal(void);
-void 	intHandler(int dummy);
-void	ft_sleep(int sec);
-int	create_sock(void);
-void	init_params(void);
+int get_packet(void);
+int send_packet(void);
+void start_signal(void);
+void intHandler(int dummy);
+void ft_sleep(int sec);
+int create_sock(void);
+void init_params(void);
 #endif
