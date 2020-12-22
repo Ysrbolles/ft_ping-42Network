@@ -69,7 +69,7 @@ int create_sock()
 	int sock;
 	int rv;
 
-	ft_memset(&hints, 0, sizeof hints);
+	ft_memset(&hints, 0, sizeof(hints));
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_RAW;
 	hints.ai_protocol = IPPROTO_ICMP;
@@ -80,7 +80,6 @@ int create_sock()
 		exit(1);
 	}
 	sockfd = socket_while(servinfo);
-	printf("ach kandir hna %d\n", sockfd);
 	if(setsockopt(sockfd, IPPROTO_IP, IP_TTL, &g_params.ttl, sizeof(g_params.ttl) != 0))
 		printf("\n-- khnouna ---\n");
 	setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO,

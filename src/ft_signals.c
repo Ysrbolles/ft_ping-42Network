@@ -17,8 +17,8 @@ void intHandler(int signum)
 
 void alarmhandler(int signum)
 {
-	gettimeofday(&g_params.time_start, NULL);
 	send_packet();
+	gettimeofday(&g_params.time_start, NULL);
 	alarm(1);
 }
 

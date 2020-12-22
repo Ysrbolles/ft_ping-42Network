@@ -51,11 +51,12 @@ int send_packet()
 
 long double calc(struct timeval start, struct timeval end)
 {
-	long double res;
+	double res;
 
 	long double startII = end.tv_sec - start.tv_sec;
-	long double endII = end.tv_usec - start.tv_usec;
-	res =((startII * 1000.) + (endII / 1000.));
+	long double endII = (end.tv_usec - start.tv_usec) / 1000000.;
+	res =(long double)end.tv_sec - start.tv_sec + endII;
+	printf("-------> res : %.1lf\n", res);
 	return (res);
 }
 
@@ -70,7 +71,6 @@ int get_packet()
 	iov.iov_len = sizeof(buffer);
 	msg.msg_name = g_params.addr_info->ai_addr;
 	msg.msg_namelen = g_params.addr_info->ai_addrlen;
-	;
 	msg.msg_iov = &iov;
 	msg.msg_iovlen = 1;
 	msg.msg_control = 0;

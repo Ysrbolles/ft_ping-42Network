@@ -27,29 +27,21 @@
 
 
 #define PACKET_PING_SIZE 64
-#define RECV_TIMEOUT 10000
 
 
-typedef struct s_flags
-{
-	int FLAG_V;
-	int FLAG_H;
-	char *HOST;
-	struct addrinfo info;
-} t_flags;
-
-typedef struct s_ping_pkt
+typedef struct s_pkt
 {
 	struct icmphdr hdr;
-	char msg[PACKET_PING_SIZE - sizeof(struct icmphdr)];
+	struct iphdr hdr;
+	char msg[PACKET_PING_SIZE];
 	
-} t_ping_pkt;
+} t_pkt;
 
 typedef struct s_params
 {
 	int pingloop;
 	struct addrinfo *addr_info;
-	int ClientSocket;
+	int clientsocket;
 	struct timeval start_time;
 	char  addrstr[INET_ADDRSTRLEN];
 	char *Host;
@@ -65,6 +57,7 @@ typedef struct s_params
 	int ttl;
 	int flag;
 	int flag_v;
+	int interval;
 	long double rtt;
 	long double total;
 } t_params;
