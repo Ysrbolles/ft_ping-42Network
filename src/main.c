@@ -144,6 +144,8 @@ void get_packet()
 				printf("%d bytes from %s: icmp_seq=%d ttl=%d time=%.lf ms\n", 64, g_params.addrstr,
 					   g_params.msg_count, g_params.ttl, g_params.rtt);
 			}
+			else if (g_params.flag & FLAG_V)
+				printf("%d bytes from %s: type = %d code = %d\n", 64, g_params.addrstr, g_params.pkt.hdr.type, g_params.pkt.hdr.code);
 		}
 	}
 }
@@ -164,6 +166,13 @@ void call_ping(void)
 	}
 }
 
+int sighandler(int sig)
+{
+	if (sig == SIGINT)
+		g_params.pingloop = 0;
+	else if (sig == SIGALRM)
+		g_params.signalalarm = 1;
+}
 int main(int ac, char **av)
 {
 	if (getuid() != 0)
