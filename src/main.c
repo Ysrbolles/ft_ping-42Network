@@ -40,7 +40,7 @@ void parse_av(int ac, char **av)
 				exit(1);
 			}
 			inet_ntop(AF_INET, &((struct sockaddr_in *)(void *)g_params.addr_info->ai_addr)->sin_addr,
-					  g_params.addrstr, sizeof(g_params.addrstr));
+					g_params.addrstr, sizeof(g_params.addrstr));
 			return;
 		}
 		i++;
@@ -49,6 +49,7 @@ void parse_av(int ac, char **av)
 
 int main(int ac, char **av)
 {
+
 	if (getuid() != 0)
 		printf("ft_ping: Operation not permitted\n");
 	init_params();

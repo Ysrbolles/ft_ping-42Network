@@ -45,7 +45,7 @@ void send_packet(void)
 	g_params.pkt.hdr.un.echo.sequence = g_params.msg_count++;
 	g_params.pkt.hdr.checksum = checksum((unsigned short *)&g_params.pkt.hdr, sizeof(struct icmphdr));
 	if (sendto(g_params.clientsocket, &g_params.pkt, PACKET_PING_SIZE, 0,
-			   g_params.addrinfo, sizeof(struct sockaddr_in)) < 0)
+				(void *)g_params.addrinfo, sizeof(struct sockaddr_in)) < 0)
 	{
 		printf("sendto socket Error\n");
 		exit(0);
@@ -72,9 +72,11 @@ void get_packet(void)
 	result.msg.msg_name = NULL;
 	result.msg.msg_namelen = 0;
 
+	printf("dkhelt hna \n");
 	while (!g_params.signalalarm)
 	{
 		ret = recvmsg(g_params.clientsocket, &g_params.res.msg, MSG_DONTWAIT);
+		printf("-----> %d\n", ret);
 		if (ret > 0)
 		{
 			if (g_params.pkt.hdr.un.echo.id == getpid())
@@ -89,10 +91,11 @@ void get_packet(void)
 				g_params.rtt += (g_params.time_end.tv_sec - g_params.time_start.tv_sec);
 				g_params.rtt *= 1000.0;
 				printf("%d bytes from %s: icmp_seq=%d ttl=%d time=%.Lf ms\n", 64, g_params.addrstr,
-					   g_params.msg_count, g_params.ttl, g_params.rtt);
+						g_params.msg_count, g_params.ttl, g_params.rtt);
 			}
 			else if (g_params.flag && g_params.flag_v)
-				printf("%d bytes from %s: type = %d code = %d\n", 64, g_params.addrstr, g_params.pkt.hdr.type, g_params.pkt.hdr.code);
+				printf("%d bytes from %s: type = %d code = %d\n", 64, g_params.addrstr, 
+						g_params.pkt.hdr.type, g_params.pkt.hdr.code);
 		}
 	}
 }
