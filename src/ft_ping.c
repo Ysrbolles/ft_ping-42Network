@@ -55,7 +55,6 @@ void create_sock(void)
 	g_params.tv_out.tv_usec = USEC_TIMEOUT;
 	if (sockfd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP) == -1)
 		printf("Socket fd not received\n");
-	printf("-----> %d \n", sockfd);
 	/*if (setsockopt(sockfd, IPPROTO_IP, IP_HDRINCL, &val, sizeof(int)) < 0)
 	{
 		printf("setsockopt Error\n");
