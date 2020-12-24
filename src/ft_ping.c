@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 16:38:07 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/24 20:54:39 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/24 21:02:13 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,9 @@ void init_params(void)
 	ft_bzero(&g_params, sizeof(t_params));
 	ft_bzero(&g_params.addr_info, sizeof(struct addrinfo));
 	g_params.pingloop = 1;
-<<<<<<< HEAD
-	g_params.signalalarm = 1;
-	g_params.pkt.ip = (struct iphdr)g_params.pkt.msg;
-	g_params.pkt.hdr = g_params.pkt.ip;
-=======
 	g_params.signalalarm = 0;
 	g_params.pkt.ip = (struct iphdr*)g_params.pkt.msg;
 	g_params.pkt.hdr = (struct icmphdr*)(g_params.pkt.ip + 1);
->>>>>>> 4bfeabe618b791c62e11f2c986bbb833a18d241f
 	g_params.ttl = 63;
 	g_params.msg_count = 0;
 	g_params.msg_countrecv = 0;
