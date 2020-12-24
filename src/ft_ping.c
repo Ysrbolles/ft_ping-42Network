@@ -35,8 +35,8 @@ void init_params(void)
 	ft_bzero(&g_params.addr_info, sizeof(struct addrinfo));
 	g_params.pingloop = 1;
 	g_params.signalalarm = 1;
-	//g_params.pkt.ip = (struct iphdr)g_params.pkt.msg;
-	//g_params.pkt.hdr = g_params.pkt.ip;
+	g_params.pkt.ip = (struct iphdr)g_params.pkt.msg;
+	g_params.pkt.hdr = g_params.pkt.ip;
 	g_params.ttl = 63;
 	g_params.msg_count = 0;
 	g_params.msg_countrecv = 0;
@@ -71,6 +71,7 @@ void call_ping(void)
 	{
 		if (g_params.signalalarm)
 		{
+			printf("/////////////////////////\n");
 			send_packet();
 			g_params.signalalarm = 0;
 			printf("***********\n");
