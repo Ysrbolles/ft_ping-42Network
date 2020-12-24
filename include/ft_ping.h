@@ -6,36 +6,35 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 19:04:29 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/22 22:23:23 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/24 21:59:41 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PING_H
 #define FT_PING_H
-#include <unistd.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <unistd.h>
+#include <netinet/ip_icmp.h>
 #include <netdb.h>
-#include <stdlib.h>
+#include <sys/time.h>
 #include <string.h>
 #include <arpa/inet.h>
-#include "libft.h"
-#include <netinet/ip_icmp.h>
 #include <signal.h>
-#include <sys/time.h>
+#include <stdlib.h>
 
+
+# define USAGE "Usage: ft_ping [-v verbose] [-h help] hostname"
 #define PACKET_PING_SIZE 84
 #define USEC_TIMEOUT 50000
 
-typedef struct s_pkt
+typedef struct			s_pckt
 {
-
-	char msg[PACKET_PING_SIZE];
-	struct icmphdr hdr;
-	struct iphdr ip;
-
-} t_pkt;
+	char				buf[PACKET_PING_SIZE];
+	struct iphdr		*ip;
+	struct icmphdr		*hdr;
+}						t_pckt;
 
 typedef struct s_res
 {
@@ -43,36 +42,47 @@ typedef struct s_res
 	struct msghdr msg;
 } t_res;
 
+
+typedef struct			s_response
+{
+	struct iovec		iov[1];
+	struct msghdr		msg;
+}						t_response;
+
+
+typedef struct			s_time
+{
+	struct timeval		s;
+	struct timeval		r;
+	long double			rtt;
+	long double			min;
+	long double			max;
+	long double			avg;
+	long double			sum_square;
+}						t_time;
+
 typedef struct s_params
 {
-	int pingloop;
-	int signalalarm;
-	struct addrinfo *addr_info;
-	struct sockaddr_in *addrinfo;
-	int clientsocket;
-	struct timeval start_time;
-	char addrstr[INET_ADDRSTRLEN];
-	char *host;
-	int packet_send;
-	int msg_count;
-	int msg_countrecv;
-	t_pkt pkt;
-	t_res res;
-	struct timeval time_start;
-	struct timeval time_end;
-	struct timeval tv_out;
-	struct timeval tfs;
-	struct timeval tfe;
-	int ttl;
-	int flag;
-	int flag_v;
-	int interval;
-	int daddr;
-	long double rtt;
-	long double total;
+	t_pckt				pckt;
+	struct sockaddr_in	*rec_in;
+	char				*dest;
+	char				ipstr[INET6_ADDRSTRLEN];
+	pid_t				pid;
+	int					seq;
+	int					sockfd;
+	int					sended;
+	int					reiceved;
+	int					bytes;
+	t_response			response;
+	t_time				time;
+	int					ttl;
+	int					count;
+	int					interval;
+	int					daddr;
+	unsigned char		flags;
 } t_params;
 
-extern t_params g_params;
+extern t_params *g_params;
 
 unsigned short checksum(void *b, int len);
 void init_params(void);
