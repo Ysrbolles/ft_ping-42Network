@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 16:38:07 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/24 20:52:08 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/24 20:54:39 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ void create_sock(void)
 	g_params.tv_out.tv_usec = USEC_TIMEOUT;
 	if (sockfd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP) == -1)
 		printf("Socket fd not received\n");
-	if (setsockopt(sockfd, IPPROTO_IP, IP_HDRINCL, &val, sizeof(int)) < 0)
+	/*if (setsockopt(sockfd, IPPROTO_IP, IP_HDRINCL, &val, sizeof(int)) < 0)
 	{
 		printf("setsockopt Error\n");
 		exit(0);
-	}
+	}*/
 	g_params.clientsocket = sockfd;
 }
 
@@ -73,7 +73,9 @@ void call_ping(void)
 		{
 			send_packet();
 			g_params.signalalarm = 0;
+			printf("***********\n");
 			alarm(g_params.interval);
+			printf("-------\n");
 			get_packet();
 		}
 	}
