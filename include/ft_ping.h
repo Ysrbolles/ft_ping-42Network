@@ -87,6 +87,7 @@ typedef struct s_params
 	int interval;
 	int daddr;
 	unsigned char flags;
+	t_signals signals;
 } t_params;
 
 extern t_params *g_params;

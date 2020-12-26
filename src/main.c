@@ -14,9 +14,9 @@
 
 t_params *g_params;
 
-void    inti_params(void)
+void    init_params(void)
 {
-    ft_bzero(g_params, sizeof(t_params));
+    bzero(g_params, sizeof(t_params));
     g_params->pckt.ip = (struct iphdr*)g_params->pckt.buf;
     g_params->pckt.hdr = (struct icmphdr*)(g_params->pckt.ip + 1);
     g_params->pid = getpid();
