@@ -89,7 +89,16 @@ void	parsing(int ac, char **av)
 		i++;
 	}
 }
+void	create_socket()
+{
+	int sockfd;
 
+	if((sockfd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) == -1)
+	{
+		printf("Socket file descriptor not received!");
+		exit(0);
+	}
+}
 void	start_ping()
 {
 	create_socket();
