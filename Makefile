@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME = ft_ping
-GCC = gcc -c #-Wall -Werror -Wextra
+GCC = gcc -c -Wall -Werror -Wextra
 PATH_INC = include/
 INC = $(addprefix $(PATH_INC), ft_ping.h)
 PATH_INC_LIB = libft/
