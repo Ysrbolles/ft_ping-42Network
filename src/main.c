@@ -90,6 +90,11 @@ void	parsing(int ac, char **av)
 	}
 }
 
+void	start_ping()
+{
+	create_socket();
+}
+
 int main(int ac, char **av)
 {
 	if (getuid() != 0)
@@ -104,8 +109,7 @@ int main(int ac, char **av)
 	}
 	init_params();
 	parsing(ac, av);
-	printf("init params done\n");
 	signal(SIGALRM, sig_handler);
 	signal(SIGINT, sig_handler);
-	printf("Achrafi \n");
+	start_ping();
 }
