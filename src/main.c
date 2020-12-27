@@ -17,7 +17,7 @@ t_params *g_params;
 void    init_params(void)
 {
 	g_params = malloc(sizeof(t_params));
-	ft_bzero(g_params, sizeof(t_params));
+	bzero(g_params, sizeof(t_params));
 	g_params->pckt.ip = (struct iphdr*)g_params->pckt.buf;
 	g_params->pckt.hdr = (struct icmphdr*)(g_params->pckt.ip + 1);
 	g_params->pid = getpid();
@@ -32,14 +32,13 @@ void    init_params(void)
 	g_params->signals.end = 0;
 }
 
-int	sighandler(int sig)
+void	sig_handler(int sig)
 {
 	if(sig == SIGINT)
 	{
 		printf("Ali \n");
 		g_params->signals.send = 0;
 	}
-
 }
 
 void	parsing(int ac, char **av)
@@ -79,7 +78,7 @@ int main(int ac, char **av)
 	init_params();
 	parsing(ac, av);
 	printf("init params done\n");
-	signal(SIGALRM, sighandler);
-	signal(SIGINT, sighandler);
+	signal(SIGALRM, sig_handler);
+	signal(SIGINT, sig_handler);
 	printf("Achrafi \n");
 }
