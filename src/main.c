@@ -14,6 +14,21 @@
 
 t_params *g_params;
 
+int	get_addrinfo(char *av)
+{
+	struct	addrinfo hints;
+	struct	addrinfo *result;
+
+	bzero(&hints, sizeof(hints));
+	hints.ai_family = AF_INET;
+	hints.ai_socktype = SOCK_RAW;
+	hints.ai_protocol = IPPROTO_ICMP;
+
+	if(getaddrinfo(av, NULL, &hints, &result) != 0)
+		return 1;
+	g_params->rec_in = (struct sockaddr_in*)result->ai_addr;
+	return 0;
+}
 void    init_params(void)
 {
 	g_params = malloc(sizeof(t_params));
@@ -58,6 +73,18 @@ void	parsing(int ac, char **av)
 			else if (av[i][1] == 'v')
 				g_params->flags |= FLAG_V;
 			
+		}
+		else
+		{
+			if(get_addrinfo(av[i]))
+			{
+				printf("Unknow name or services\n");
+				exit(0);
+			}
+			g_params->host = av[i];
+			inet_ntop(AF_INET, (void*)&g_params->rec_in->sin_addr, g_params->addrstr, INET6_ADDRSTRLEN);
+			printf("------> %s \n", g_params->addrstr);
+			return ;
 		}
 		i++;
 	}

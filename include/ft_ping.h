@@ -72,8 +72,8 @@ typedef struct s_params
 {
 	t_pckt pckt;
 	struct sockaddr_in *rec_in;
-	char *dest;
-	char ipstr[INET6_ADDRSTRLEN];
+	char *host;
+	char addrstr[INET6_ADDRSTRLEN];
 	pid_t pid;
 	int seq;
 	int sockfd;
