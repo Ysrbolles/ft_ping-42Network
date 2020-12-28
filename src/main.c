@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 21:53:48 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/25 14:41:39 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/25 17:37:33 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,39 @@
 
 t_params *g_params;
 
-void    inti_params(void)
+void parsing(int ac, char **av)
+{
+    int i;
+
+    i = 1;
+    while (i < ac)
+    {
+        if (av[i][0] == '-')
+            if (av[i][1] == 'h')
+            {
+                printf(USAGE);
+                exit(0);
+            }
+            else if (av[i][1])
+            {
+                g_params->flags |= FLAG_V;
+            }
+            else
+            {
+                printf(USAGE);
+                exit(0);
+            }
+        else
+        {
+            get_addresinfo(av[i]);
+        }
+    }
+}
+void inti_params(void)
 {
     ft_bzero(g_params, sizeof(t_params));
-    g_params->pckt.ip = (struct iphdr*)g_params->pckt.buf;
-    g_params->pckt.hdr = (struct icmphdr*)(g_params->pckt.ip + 1);
+    g_params->pckt.ip = (struct iphdr *)g_params->pckt.buf;
+    g_params->pckt.hdr = (struct icmphdr *)(g_params->pckt.ip + 1);
     g_params->pid = getpid();
     g_params->seq = 1;
     g_params->time.min = 0.0;
@@ -30,7 +58,6 @@ void    inti_params(void)
     g_params->signals.send = 1;
     g_params->signals.end = 0;
 }
-
 
 int main(int ac, char **av)
 {
