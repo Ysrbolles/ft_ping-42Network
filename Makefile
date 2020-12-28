@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME = ft_ping
-GCC = gcc -c #-Wall -Werror -Wextra
+GCC = gcc -c -Wall -Werror -Wextra
 PATH_INC = include/
 INC = $(addprefix $(PATH_INC), ft_ping.h)
 PATH_INC_LIB = libft/
@@ -21,9 +21,6 @@ PATH_LIB = libft/
 LIB = -L $(PATH_LIB) -lft
 
 SRC_FILE = main.c \
-	   ft_ping.c \
-	   packet.c \
-	   ft_signals.c
 
 ALL_OBJ = $(addprefix $(PATH_OBJ), $(SRC_FILE:.c=.o))
 

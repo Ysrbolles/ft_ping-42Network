@@ -14,37 +14,25 @@
 
 t_params *g_params;
 
-void parsing(int ac, char **av)
+int get_addrinfo(char *av)
 {
-    int i;
+    struct addrinfo hints;
+    struct addrinfo *result;
 
-    i = 1;
-    while (i < ac)
-    {
-        if (av[i][0] == '-')
-            if (av[i][1] == 'h')
-            {
-                printf(USAGE);
-                exit(0);
-            }
-            else if (av[i][1])
-            {
-                g_params->flags |= FLAG_V;
-            }
-            else
-            {
-                printf(USAGE);
-                exit(0);
-            }
-        else
-        {
-            get_addresinfo(av[i]);
-        }
-    }
+    bzero(&hints, sizeof(hints));
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_RAW;
+    hints.ai_protocol = IPPROTO_ICMP;
+
+    if (getaddrinfo(av, NULL, &hints, &result) != 0)
+        return 1;
+    g_params->rec_in = (struct sockaddr_in *)result->ai_addr;
+    return 0;
 }
-void inti_params(void)
+void init_params(void)
 {
-    ft_bzero(g_params, sizeof(t_params));
+    g_params = malloc(sizeof(t_params));
+    bzero(g_params, sizeof(t_params));
     g_params->pckt.ip = (struct iphdr *)g_params->pckt.buf;
     g_params->pckt.hdr = (struct icmphdr *)(g_params->pckt.ip + 1);
     g_params->pid = getpid();
@@ -57,6 +45,70 @@ void inti_params(void)
     g_params->interval = 1;
     g_params->signals.send = 1;
     g_params->signals.end = 0;
+}
+
+void sig_handler(int sig)
+{
+    if (sig == SIGINT)
+    {
+        printf("Ali \n");
+        g_params->signals.send = 0;
+    }
+}
+
+void parsing(int ac, char **av)
+{
+    int i;
+
+    i = 1;
+    while (i < ac)
+    {
+        if (av[i][0] == '-')
+        {
+            if (av[i][1] == 'h')
+            {
+                printf(USAGE "\n");
+                exit(0);
+            }
+            else if (av[i][1] == 'v')
+                g_params->flags |= FLAG_V;
+        }
+        else
+        {
+            if (get_addrinfo(av[i]))
+            {
+                printf("Unknow name or services\n");
+                exit(0);
+            }
+            g_params->host = av[i];
+            inet_ntop(AF_INET, (void *)&g_params->rec_in->sin_addr, g_params->addrstr, INET6_ADDRSTRLEN);
+            printf("------> %s \n", g_params->addrstr);
+            return;
+        }
+        i++;
+    }
+}
+void create_socket()
+{
+    int sockfd;
+    int opt_val;
+
+    opt_val = 1;
+    if ((sockfd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) == -1)
+    {
+        printf("Socket file descriptor not received!\n");
+        exit(0);
+    }
+    if (setsockopt(sockfd, IPPROTO_IP, IP_HDRINCL, &opt_val, sizeof(int)) < 0)
+    {
+        printf("setsockopt Error\n");
+        exit(0);
+    }
+    g_params->sockfd = sockfd;
+}
+void start_ping()
+{
+    create_socket();
 }
 
 int main(int ac, char **av)
@@ -72,5 +124,8 @@ int main(int ac, char **av)
         exit(0);
     }
     init_params();
-    printf("init params done\n");
+    parsing(ac, av);
+    signal(SIGALRM, sig_handler);
+    signal(SIGINT, sig_handler);
+    start_ping();
 }
