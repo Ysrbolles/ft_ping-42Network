@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 19:04:29 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/29 10:55:05 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/29 16:33:08 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,6 @@ void send_packet(void);
 void parsing(int ac, char **av);
 void sig_handler(int sig);
 int get_addrinfo(char *host);
+void	errorstr(char *error)
 
 #endif
