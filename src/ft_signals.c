@@ -12,9 +12,9 @@
 
 #include "ft_ping.h"
 
-void	errorstr(char *error)
+void	errorstr(char *errorstr)
 {
-	printf("%s\n", error);
+	printf("%s\n", errorstr);
 	exit(0);
 }
 

@@ -102,6 +102,6 @@ void send_packet(void);
 void parsing(int ac, char **av);
 void sig_handler(int sig);
 int get_addrinfo(char *host);
-void	errorstr(char *error)
+void	errorstr(char *errorstr);
 
 #endif

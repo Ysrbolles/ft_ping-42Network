@@ -70,4 +70,5 @@ int		main(int ac, char **av)
 	signal(SIGALRM, sig_handler);
 	signal(SIGINT, sig_handler);
 	start_ping();
+	return (0);
 }
