@@ -59,6 +59,8 @@ typedef struct s_response
 
 typedef struct s_time
 {
+	struct timeval time_start;
+	struct timeval time_end;
 	struct timeval s;
 	struct timeval r;
 	long double rtt;
@@ -98,7 +100,7 @@ void create_socket(void);
 void get_packet(void);
 void send_packet(void);
 void parsing(int ac, char **av);
-int sig_handler(int sig);
+void sig_handler(int sig);
 int get_addrinfo(char *host);
 
 #endif
