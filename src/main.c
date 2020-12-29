@@ -6,15 +6,15 @@
 /*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 21:53:48 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/29 11:01:36 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/29 11:05:48 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
-t_params *g_params;
+t_params	*g_params;
 
-void init_params(void)
+void		init_params(void)
 {
 	g_params = malloc(sizeof(t_params));
 	bzero(g_params, sizeof(t_params));
@@ -32,7 +32,7 @@ void init_params(void)
 	g_params->signals.end = 0;
 }
 
-void parsing(int ac, char **av)
+void		parsing(int ac, char **av)
 {
 	int i;
 
@@ -57,14 +57,15 @@ void parsing(int ac, char **av)
 				exit(0);
 			}
 			g_params->host = av[i];
-			inet_ntop(AF_INET, (void *)&g_params->rec_in->sin_addr, g_params->addrstr, INET6_ADDRSTRLEN);
-			return;
+			inet_ntop(AF_INET, (void *)&g_params->rec_in->sin_addr,
+					g_params->addrstr, INET6_ADDRSTRLEN);
+			return ;
 		}
 		i++;
 	}
 }
 
-int main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	if (getuid() != 0)
 	{
