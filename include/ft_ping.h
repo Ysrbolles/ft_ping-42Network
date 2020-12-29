@@ -92,7 +92,6 @@ typedef struct s_params
 
 extern t_params *g_params;
 
-unsigned short checksum(void *b, int len);
 void init_params(void);
 void call_ping(void);
 void create_sock(void);
