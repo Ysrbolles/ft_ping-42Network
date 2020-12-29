@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ping.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 19:04:29 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/25 14:40:19 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/29 10:55:05 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@
 #define FLAG_V 0x02
 #define FLAG_I 1 << 2
 
-typedef struct			s_signals
+typedef struct s_signals
 {
-	int					send;
-	int					end;
-}						t_signals;
+	int send;
+	int end;
+} t_signals;
 
 typedef struct s_pckt
 {
@@ -91,14 +91,14 @@ typedef struct s_params
 } t_params;
 
 extern t_params *g_params;
-
+unsigned short checksum(unsigned short *data, int len);
 void init_params(void);
-void call_ping(void);
-void create_sock(void);
+void start_ping(void);
+void create_socket(void);
 void get_packet(void);
 void send_packet(void);
-void parse_av(int ac, char **av);
-int sighandler(int sig);
+void parsing(int ac, char **av);
+int sig_handler(int sig);
 int get_addrinfo(char *host);
 
 #endif

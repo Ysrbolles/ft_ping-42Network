@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ybolles <ybolles@student.1337.ma>          +#+  +:+       +#+         #
+#    By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/04 16:33:11 by ybolles           #+#    #+#              #
-#    Updated: 2020/12/06 21:08:56 by ybolles          ###   ########.fr        #
+#    Updated: 2020/12/29 11:02:45 by ybolles          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,9 @@ PATH_LIB = libft/
 LIB = -L $(PATH_LIB) -lft
 
 SRC_FILE = main.c \
+			ft_ping.c \
+			ft_packet.c \
+			ft_signals.c 
 
 ALL_OBJ = $(addprefix $(PATH_OBJ), $(SRC_FILE:.c=.o))
 
