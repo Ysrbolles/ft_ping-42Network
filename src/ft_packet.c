@@ -46,6 +46,7 @@ void get_packet()
 	int ret;
 	t_response *res;
 	long double rtt;
+	char str[50];
 
 	res = &g_params->response;
 	bzero((void *)g_params->pckt.buf, PACKET_PING_SIZE);
@@ -84,7 +85,15 @@ void get_packet()
 				g_params->time.sum_square += rtt * rtt;
 				printf("%d bytes from %s: icmp_seq=%d ttl=%d time=%.2Lf ms\n", g_params->bytes - (int)sizeof(struct iphdr), g_params->addrstr, g_params->pckt.hdr->un.echo.sequence, g_params->pckt.ip->ttl, rtt);
 			}
-			return;
+		
+		else if(g_params->flags & FLAG_V)
+		{
+			printf("%d bytes from %s: type=%d code=%d\n", g_params->bytes - (int)sizeof(struct iphdr),
+					inet_ntop(AF_INET, (void*)&g_params->pckt.ip->saddr, str, 100),
+					g_params->pckt.hdr->type, g_params->pckt.hdr->code);
+
+		}
+		return ;
 		}
 	}
 }
