@@ -6,13 +6,19 @@
 /*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 21:53:48 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/29 10:59:01 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/29 16:32:05 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
-void create_socket()
+void	errorstr(char *error)
+{
+	printf("%s\n", error);
+	exit(0);
+}
+
+void	create_socket(void)
 {
 	int sockfd;
 	int opt_val;
@@ -31,24 +37,37 @@ void create_socket()
 	g_params->sockfd = sockfd;
 }
 
-void sig_handler(int sig)
+void	get_statistic(void)
 {
-	double	loss;
-	long double time;
+	long int	start;
+	long int	end;
+	double		loss;
+	long double	time;
 
+	start = g_params->time.time_start.tv_usec;
+	end = g_params->time.time_end.tv_usec;
+	gettimeofday(&g_params->time.time_end, NULL);
+	loss = (g_params->sended - g_params->reiceved)
+	/ g_params->sended * 100.0;
+	time = (end - start) / 1000.0;
+	g_params->time.sum_square = (g_params->time.sum_square /
+	g_params->sended) - g_params->time.avg * g_params->time.avg;
+	printf("\n--- %s ping statistics ---\n", g_params->host);
+	printf("%d packets trnasmitted, %d recived, \
+	%.0f%% packet loss, time %.0Lfms\n",
+	g_params->sended, g_params->reiceved, loss, time);
+	printf("rtt min/avg/max/mdev = %.3Lf/%.3Lf/%.3Lf/%.3Lf ms\n",
+	g_params->time.min, (g_params->time.avg / g_params->sended),
+	g_params->time.max, g_params->time.sum_square);
+}
+
+void	sig_handler(int sig)
+{
 	if (sig == SIGINT)
 	{
 		g_params->signals.end = 1;
-		gettimeofday(&g_params->time.time_end, NULL);
-		loss = (g_params->sended - g_params->reiceved) / g_params->sended * 100.0;
-		time = (g_params->time.time_end.tv_usec - g_params->time.time_start.tv_usec) / 1000.0;
-		g_params->time.sum_square = (g_params->time.sum_square / g_params->sended) - g_params->time.avg * g_params->time.avg;
-		printf("\n--- %s ping statistics ---\n", g_params->host);
-		printf("%d packets trnasmitted, %d recived, %.0f%% packet loss, time %.0Lfms\n",
-			       	g_params->sended, g_params->reiceved, loss, time);
-		printf("rtt min/avg/max/mdev = %.3Lf/%.3Lf/%.3Lf/%.3Lf ms\n", g_params->time.min,
-				(g_params->time.avg / g_params->sended), g_params->time.max, g_params->time.sum_square);
+		get_statistic();
 	}
-	if(sig == SIGALRM)
+	if (sig == SIGALRM)
 		g_params->signals.send = 1;
 }

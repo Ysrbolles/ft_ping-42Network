@@ -6,13 +6,13 @@
 /*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 21:53:48 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/29 10:55:52 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/29 16:16:02 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
-void send_packet()
+void	send_packet(void)
 {
 	bzero((void *)g_params->pckt.buf, PACKET_PING_SIZE);
 	g_params->pckt.ip->version = 4;
@@ -25,28 +25,28 @@ void send_packet()
 	g_params->pckt.hdr->code = 0;
 	g_params->pckt.hdr->un.echo.id = g_params->pid;
 	g_params->pckt.hdr->un.echo.sequence = g_params->seq++;
-	g_params->pckt.hdr->checksum = checksum((unsigned short *)g_params->pckt.hdr, sizeof(struct icmphdr));
-	if (sendto(g_params->sockfd, (void *)&g_params->pckt, PACKET_PING_SIZE, 0, (void *)g_params->rec_in, sizeof(struct sockaddr_in)) < 0)
+	g_params->pckt.hdr->checksum = checksum((unsigned short*)g_params->pckt.hdr,
+	sizeof(struct icmphdr));
+	if (sendto(g_params->sockfd, (void *)&g_params->pckt, PACKET_PING_SIZE, 0,
+	(void *)g_params->rec_in,
+	sizeof(struct sockaddr_in)) < 0)
 	{
 		printf("sendto Error\n");
 		exit(0);
 	}
 	if (gettimeofday(&g_params->time.s, NULL) < 0)
-	{
-		printf("gettimeofday Error\n");
-		exit(0);
-	}
+		errorstr("gettimeofday Error\n");
 	g_params->sended > 1 ? gettimeofday(&g_params->time.time_start, NULL) : 0;
 	g_params->sended++;
 	g_params->signals.send = 0;
 }
 
-void get_packet()
+void	get_packet(void)
 {
-	int ret;
-	t_response *res;
-	long double rtt;
-	char str[50];
+	int			ret;
+	t_response	*res;
+	long double	rtt;
+	char		str[50];
 
 	res = &g_params->response;
 	bzero((void *)g_params->pckt.buf, PACKET_PING_SIZE);
@@ -58,7 +58,6 @@ void get_packet()
 	res->msg.msg_name = NULL;
 	res->msg.msg_namelen = 0;
 	res->msg.msg_flags = MSG_DONTWAIT;
-
 	while (!g_params->signals.end)
 	{
 		ret = recvmsg(g_params->sockfd, &g_params->response.msg, MSG_DONTWAIT);
@@ -68,10 +67,7 @@ void get_packet()
 			if (g_params->pckt.hdr->un.echo.id == g_params->pid)
 			{
 				if (gettimeofday(&g_params->time.r, NULL) < 0)
-				{
-					printf("gettimeofday ERROR\n");
-					exit(0);
-				}
+					errorstr("gettimeofday ERROR\n");
 				g_params->reiceved++;
 				rtt = (g_params->time.r.tv_usec - g_params->time.s.tv_usec) / 1000000.0;
 				rtt += (g_params->time.r.tv_sec - g_params->time.s.tv_sec);
@@ -83,17 +79,17 @@ void get_packet()
 					g_params->time.min = rtt;
 				g_params->time.avg += rtt;
 				g_params->time.sum_square += rtt * rtt;
-				printf("%d bytes from %s: icmp_seq=%d ttl=%d time=%.2Lf ms\n", g_params->bytes - (int)sizeof(struct iphdr), g_params->addrstr, g_params->pckt.hdr->un.echo.sequence, g_params->pckt.ip->ttl, rtt);
+				printf("%d bytes from %s: icmp_seq=%d ttl=%d time=%.2Lf ms\n", g_params->bytes -
+				(int)sizeof(struct iphdr), g_params->addrstr,
+				g_params->pckt.hdr->un.echo.sequence, g_params->pckt.ip->ttl, rtt);
 			}
-		
-		else if(g_params->flags & FLAG_V)
-		{
-			printf("%d bytes from %s: type=%d code=%d\n", g_params->bytes - (int)sizeof(struct iphdr),
-					inet_ntop(AF_INET, (void*)&g_params->pckt.ip->saddr, str, 100),
-					g_params->pckt.hdr->type, g_params->pckt.hdr->code);
-
-		}
-		return ;
+			else if (g_params->flags & FLAG_V)
+			{
+				printf("%d bytes from %s: type=%d code=%d\n", g_params->bytes - (int)sizeof(struct iphdr),
+						inet_ntop(AF_INET, (void*)&g_params->pckt.ip->saddr, str, 100),
+						g_params->pckt.hdr->type, g_params->pckt.hdr->code);
+			}
+			return ;
 		}
 	}
 }
