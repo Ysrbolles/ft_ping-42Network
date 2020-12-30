@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 21:53:48 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/30 16:10:32 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/30 17:19:46 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	get_statistic(void)
 	struct timeval	end;
 	double			loss;
 	long double		time;
+	long double		mdev;
 
 	gettimeofday(&g_params->time.time_end, NULL);
 	start = g_params->time.time_start;
@@ -52,16 +53,17 @@ void	get_statistic(void)
 	time = (end.tv_usec - start.tv_usec) / 1000000.0;
 	time += (end.tv_sec - start.tv_sec);
 	time *= 1000.0;
-	g_params->time.sum_square = (g_params->time.sum_square /
-	g_params->sended) - g_params->time.avg * g_params->time.avg;
-	g_params->time.sum_square = sqrt(g_params->time.sum_square);
+	g_params->time.avg /= g_params->sended;
+	mdev = (g_params->time.sum_square / g_params->sended) -
+		g_params->time.avg * g_params->time.avg;
+	mdev = sqrt(mdev);
 	printf("\n--- %s ping statistics ---\n", g_params->host);
 	printf("%d packets trnasmitted, %d recived, ",
 	g_params->sended, g_params->reiceved);
 	printf("%.0f%% packet loss, time %.0Lfms\n", loss, time);
 	printf("rtt min/avg/max/mdev = %.3Lf/%.3Lf/%.3Lf/%.3Lf ms\n",
-	g_params->time.min, (g_params->time.avg / g_params->sended),
-	g_params->time.max, g_params->time.sum_square);
+	g_params->time.min, g_params->time.avg,
+	g_params->time.max, mdev);
 }
 
 void	sig_handler(int sig)
