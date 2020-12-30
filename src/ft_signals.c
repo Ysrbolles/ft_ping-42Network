@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 21:53:48 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/30 09:18:21 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/30 09:23:21 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	get_statistic(void)
 	long int	end;
 	double		loss;
 	long double	time;
+	char		*tmp;
 
 	start = g_params->time.time_start.tv_usec;
 	end = g_params->time.time_end.tv_usec;
@@ -52,10 +53,10 @@ void	get_statistic(void)
 	time = (end - start) / 1000.0;
 	g_params->time.sum_square = (g_params->time.sum_square /
 	g_params->sended) - g_params->time.avg * g_params->time.avg;
+	tmp = (char*)"%.0f%% packet loss, time %.0Lfms\n";
 	printf("\n--- %s ping statistics ---\n", g_params->host);
-	printf("%d packets trnasmitted, %d recived,\
-	%.0f%% packet loss, time %.0Lfms\n",
-	g_params->sended, g_params->reiceved, loss, time);
+	printf("%d packets trnasmitted, %d recived,%s"
+	g_params->sended, g_params->reiceved, tmp, loss, time);
 	printf("rtt min/avg/max/mdev = %.3Lf/%.3Lf/%.3Lf/%.3Lf ms\n",
 	g_params->time.min, (g_params->time.avg / g_params->sended),
 	g_params->time.max, g_params->time.sum_square);
