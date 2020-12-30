@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 21:53:48 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/30 15:30:54 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/30 15:53:57 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,19 @@ void	create_socket(void)
 
 void	get_statistic(void)
 {
-	long int	start;
-	long int	end;
-	double		loss;
-	long double	time;
+	struct timeval	start;
+	struct timeval	end;
+	double			loss;
+	long double		time;
 
-	start = g_params->time.time_start.tv_usec;
-	end = g_params->time.time_end.tv_usec;
 	gettimeofday(&g_params->time.time_end, NULL);
+	start = g_params->time.time_start;
+	end = g_params->time.time_end;
 	loss = (g_params->sended - g_params->reiceved)
 	/ g_params->sended * 100.0;
-	time = (end - start) / 1000;
+	time = (end.tv_usec - start.tv_usec) / 1000000.0;
+	time += (end.tv_sec - start.tv_sec);
+	time *= 1000.0;
 	g_params->time.sum_square = (g_params->time.sum_square /
 	g_params->sended) - g_params->time.avg * g_params->time.avg;
 	printf("\n--- %s ping statistics ---\n", g_params->host);
