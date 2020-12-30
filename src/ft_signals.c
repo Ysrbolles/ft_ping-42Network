@@ -44,12 +44,14 @@ void	get_statistic(void)
 	double		loss;
 	long double	time;
 
+	gettimeofday(&g_params->time.time_end, NULL);
 	start = g_params->time.time_start.tv_usec;
 	end = g_params->time.time_end.tv_usec;
-	gettimeofday(&g_params->time.time_end, NULL);
 	loss = (g_params->sended - g_params->reiceved)
 	/ g_params->sended * 100.0;
-	time = (end - start) / 1000.0;
+	printf(" - - %ld - -\n", start);
+	printf(" - - %ld - -\n", end);
+	time = (end - start) / 1000;
 	g_params->time.sum_square = (g_params->time.sum_square /
 	g_params->sended) - g_params->time.avg * g_params->time.avg;
 	printf("\n--- %s ping statistics ---\n", g_params->host);
