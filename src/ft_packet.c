@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 21:53:48 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/30 09:16:05 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/30 09:19:03 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void	init_header(void)
 
 void	printf_v(void)
 {
+	char		str[50];
+
 	printf("%d bytes from %s: type=%d code=%d\n",
 	g_params->bytes - (int)sizeof(struct iphdr),
 	inet_ntop(AF_INET, (void*)&g_params->pckt.ip->saddr, str, 100),
@@ -87,7 +89,6 @@ void	printf_v(void)
 void	get_packet(void)
 {
 	int			ret;
-	char		str[50];
 
 	init_header();
 	while (!g_params->signals.end)
