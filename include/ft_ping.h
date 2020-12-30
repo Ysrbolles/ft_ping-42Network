@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 19:04:29 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/30 16:36:05 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/30 18:41:19 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <arpa/inet.h>
 # include <signal.h>
 # include <stdlib.h>
+# include "libft.h"
 
 # define USAGE "Usage: ft_ping [-v verbose] [-h help] hostname"
 # define PACKET_PING_SIZE 84
