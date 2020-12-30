@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 21:53:48 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/30 09:44:19 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/30 17:25:06 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	send_packet(void)
 {
-	bzero((void *)g_params->pckt.buf, PACKET_PING_SIZE);
+	ft_bzero((void *)g_params->pckt.buf, PACKET_PING_SIZE);
 	g_params->pckt.ip->version = 4;
 	g_params->pckt.ip->ihl = sizeof(*g_params->pckt.ip) >> 2;
 	g_params->pckt.ip->ttl = g_params->ttl;
@@ -65,8 +65,8 @@ void	init_header(void)
 	t_res	*res;
 
 	res = &g_params->response;
-	bzero((void *)g_params->pckt.buf, PACKET_PING_SIZE);
-	bzero(res, sizeof(t_res));
+	ft_bzero((void *)g_params->pckt.buf, PACKET_PING_SIZE);
+	ft_bzero(res, sizeof(t_res));
 	res->iov->iov_base = (void *)g_params->pckt.buf;
 	res->iov->iov_len = sizeof(g_params->pckt.buf);
 	res->msg.msg_iov = res->iov;

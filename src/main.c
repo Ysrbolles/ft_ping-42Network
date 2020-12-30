@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 21:53:48 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/29 16:06:25 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/30 17:25:12 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_params *g_params;
 void	init_params(void)
 {
 	g_params = malloc(sizeof(t_params));
-	bzero(g_params, sizeof(t_params));
+	ft_bzero(g_params, sizeof(t_params));
 	g_params->pckt.ip = (struct iphdr *)g_params->pckt.buf;
 	g_params->pckt.hdr = (struct icmphdr *)(g_params->pckt.ip + 1);
 	g_params->pid = getpid();
