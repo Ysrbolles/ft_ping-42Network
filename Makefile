@@ -45,7 +45,7 @@ all: $(NAME)
 
 $(NAME): $(ALL_OBJ)
 	@make -C $(PATH_LIB)
-	@gcc $(ALL_OBJ) -I $(PATH_INC) -I $(PATH_INC_LIB) $(LIB) -o $(NAME)
+	@gcc $(ALL_OBJ) -I $(PATH_INC) -I $(PATH_INC_LIB) $(LIB) -o $(NAME) -lm
 	@echo "                                                     Made by : \033[1;91mYbolles\033[m"
 	@echo "  ___   _                                    "
 	@echo "/ ___) ( )_                _                "
