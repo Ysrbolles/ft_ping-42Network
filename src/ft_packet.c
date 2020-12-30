@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 21:53:48 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/29 16:16:02 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/30 09:16:05 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,28 @@ void	send_packet(void)
 	g_params->signals.send = 0;
 }
 
-void	get_packet(void)
+void	calc_rtt(void)
 {
-	int			ret;
-	t_response	*res;
-	long double	rtt;
-	char		str[50];
+	long double rtt;
+
+	if (gettimeofday(&g_params->time.r, NULL) < 0)
+		errorstr("gettimeofday Error!");
+	g_params->reiceved++;
+	rtt = (g_params->time.r.tv_usec - g_params->time.s.tv_usec) / 1000000.0;
+	rtt += (g_params->time.r.tv_sec - g_params->time.s.tv_sec);
+	rtt *= 1000.0;
+	g_params->time.rtt = rtt;
+	if (rtt > g_params->time.max)
+		g_params->time.max = rtt;
+	if (rtt < g_params->time.min || g_params->time.min == 0.0)
+		g_params->time.min = rtt;
+	g_params->time.avg += rtt;
+	g_params->time.sum_square += rtt * rtt;
+}
+
+void	init_header(void)
+{
+	t_response *res;
 
 	res = &g_params->response;
 	bzero((void *)g_params->pckt.buf, PACKET_PING_SIZE);
@@ -58,6 +74,22 @@ void	get_packet(void)
 	res->msg.msg_name = NULL;
 	res->msg.msg_namelen = 0;
 	res->msg.msg_flags = MSG_DONTWAIT;
+}
+
+void	printf_v(void)
+{
+	printf("%d bytes from %s: type=%d code=%d\n",
+	g_params->bytes - (int)sizeof(struct iphdr),
+	inet_ntop(AF_INET, (void*)&g_params->pckt.ip->saddr, str, 100),
+	g_params->pckt.hdr->type, g_params->pckt.hdr->code);
+}
+
+void	get_packet(void)
+{
+	int			ret;
+	char		str[50];
+
+	init_header();
 	while (!g_params->signals.end)
 	{
 		ret = recvmsg(g_params->sockfd, &g_params->response.msg, MSG_DONTWAIT);
@@ -66,29 +98,14 @@ void	get_packet(void)
 			g_params->bytes = ret;
 			if (g_params->pckt.hdr->un.echo.id == g_params->pid)
 			{
-				if (gettimeofday(&g_params->time.r, NULL) < 0)
-					errorstr("gettimeofday ERROR\n");
-				g_params->reiceved++;
-				rtt = (g_params->time.r.tv_usec - g_params->time.s.tv_usec) / 1000000.0;
-				rtt += (g_params->time.r.tv_sec - g_params->time.s.tv_sec);
-				rtt *= 1000.0;
-				g_params->time.rtt = rtt;
-				if (rtt > g_params->time.max)
-					g_params->time.max = rtt;
-				if (rtt < g_params->time.min || g_params->time.min == 0.0)
-					g_params->time.min = rtt;
-				g_params->time.avg += rtt;
-				g_params->time.sum_square += rtt * rtt;
-				printf("%d bytes from %s: icmp_seq=%d ttl=%d time=%.2Lf ms\n", g_params->bytes -
-				(int)sizeof(struct iphdr), g_params->addrstr,
-				g_params->pckt.hdr->un.echo.sequence, g_params->pckt.ip->ttl, rtt);
+				calc_rtt();
+				printf("%d bytes from %s: icmp_seq=%d ttl=%d time=%.2Lf ms\n",
+				g_params->bytes - (int)sizeof(struct iphdr), g_params->addrstr,
+				g_params->pckt.hdr->un.echo.sequence, g_params->pckt.ip->ttl,
+				g_params->time.rtt);
 			}
 			else if (g_params->flags & FLAG_V)
-			{
-				printf("%d bytes from %s: type=%d code=%d\n", g_params->bytes - (int)sizeof(struct iphdr),
-						inet_ntop(AF_INET, (void*)&g_params->pckt.ip->saddr, str, 100),
-						g_params->pckt.hdr->type, g_params->pckt.hdr->code);
-			}
+				printf_v();
 			return ;
 		}
 	}
