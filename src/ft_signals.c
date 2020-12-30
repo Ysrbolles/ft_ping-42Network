@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 21:53:48 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/30 15:53:57 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/30 15:59:05 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	get_statistic(void)
 	time *= 1000.0;
 	g_params->time.sum_square = (g_params->time.sum_square /
 	g_params->sended) - g_params->time.avg * g_params->time.avg;
+	g_params->time.sum_square = sqrt(g_params->time.sum_square);
 	printf("\n--- %s ping statistics ---\n", g_params->host);
 	printf("%d packets trnasmitted, %d recived, ",
 	g_params->sended, g_params->reiceved);
