@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 21:53:48 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/30 09:26:32 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/30 15:30:54 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ void	get_statistic(void)
 	gettimeofday(&g_params->time.time_end, NULL);
 	loss = (g_params->sended - g_params->reiceved)
 	/ g_params->sended * 100.0;
-	time = (end - start) / 1000.0;
+	time = (end - start) / 1000;
 	g_params->time.sum_square = (g_params->time.sum_square /
 	g_params->sended) - g_params->time.avg * g_params->time.avg;
 	printf("\n--- %s ping statistics ---\n", g_params->host);
 	printf("%d packets trnasmitted, %d recived, ",
 	g_params->sended, g_params->reiceved);
-	printf("%.0f%% packet loss, time %.0Lfms\n", loss, time);
+	printf("%.0f%% packet loss, time %Lfms\n", loss, time);
 	printf("rtt min/avg/max/mdev = %.3Lf/%.3Lf/%.3Lf/%.3Lf ms\n",
 	g_params->time.min, (g_params->time.avg / g_params->sended),
 	g_params->time.max, g_params->time.sum_square);
