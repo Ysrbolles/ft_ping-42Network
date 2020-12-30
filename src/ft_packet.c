@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 21:53:48 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/30 09:19:03 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/30 09:44:19 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ void	calc_rtt(void)
 
 void	init_header(void)
 {
-	t_response *res;
+	t_res	*res;
 
 	res = &g_params->response;
 	bzero((void *)g_params->pckt.buf, PACKET_PING_SIZE);
-	bzero(res, sizeof(t_response));
+	bzero(res, sizeof(t_res));
 	res->iov->iov_base = (void *)g_params->pckt.buf;
 	res->iov->iov_len = sizeof(g_params->pckt.buf);
 	res->msg.msg_iov = res->iov;
