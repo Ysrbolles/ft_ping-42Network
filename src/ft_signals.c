@@ -57,7 +57,7 @@ void	get_statistic(void)
 	printf("\n--- %s ping statistics ---\n", g_params->host);
 	printf("%d packets trnasmitted, %d recived, ",
 	g_params->sended, g_params->reiceved);
-	printf("%.0f%% packet loss, time %Lfms\n", loss, time);
+	printf("%.0f%% packet loss, time %.0Lfms\n", loss, time);
 	printf("rtt min/avg/max/mdev = %.3Lf/%.3Lf/%.3Lf/%.3Lf ms\n",
 	g_params->time.min, (g_params->time.avg / g_params->sended),
 	g_params->time.max, g_params->time.sum_square);
