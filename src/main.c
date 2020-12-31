@@ -48,9 +48,12 @@ void	parsing(int ac, char **av)
 		}
 		else
 		{
-			if (get_addrinfo(av[i]))
-				errorstr("Unknow ame or services");
 			g_params->host = av[i];
+			if (get_addrinfo(av[i]))
+			{
+				printf("ft_ping: %s : ", g_params->host);
+				errorstr("Name or service not known");
+			}
 			inet_ntop(AF_INET, (void *)&g_params->rec_in->sin_addr,
 			g_params->addrstr, INET6_ADDRSTRLEN);
 			return ;
