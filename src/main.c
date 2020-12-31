@@ -36,7 +36,7 @@ void	parsing(int ac, char **av)
 {
 	int i;
 
-	i = 1;
+	i = 0;
 	while (i++ < ac)
 	{
 		if (av[i][0] == '-')
