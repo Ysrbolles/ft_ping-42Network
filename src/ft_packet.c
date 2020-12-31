@@ -30,10 +30,7 @@ void	send_packet(void)
 	if (sendto(g_params->sockfd, (void *)&g_params->pckt, PACKET_PING_SIZE, 0,
 	(void *)g_params->rec_in,
 	sizeof(struct sockaddr_in)) < 0)
-	{
-		printf("sendto Error\n");
-		exit(0);
-	}
+		errorstr("sendto Error");
 	if (gettimeofday(&g_params->time.s, NULL) < 0)
 		errorstr("gettimeofday Error\n");
 	g_params->sended > 1 ? gettimeofday(&g_params->time.time_start, NULL) : 0;
