@@ -6,7 +6,7 @@
 /*   By: ybolles <ybolles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 21:53:48 by ybolles           #+#    #+#             */
-/*   Updated: 2020/12/30 17:25:12 by ybolles          ###   ########.fr       */
+/*   Updated: 2020/12/31 15:19:12 by ybolles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	parsing(int ac, char **av)
 	int i;
 
 	i = 1;
-	while (i < ac)
+	while (i++ < ac)
 	{
 		if (av[i][0] == '-')
 		{
@@ -58,7 +58,6 @@ void	parsing(int ac, char **av)
 			g_params->addrstr, INET6_ADDRSTRLEN);
 			return ;
 		}
-		i++;
 	}
 }
 
