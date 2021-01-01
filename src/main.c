@@ -45,6 +45,8 @@ void	parsing(int ac, char **av)
 				errorstr(USAGE);
 			else if (av[i][1] == 'v')
 				g_params->flags |= FLAG_V;
+			else
+				errorstr(USAGE);
 		}
 		else
 		{
